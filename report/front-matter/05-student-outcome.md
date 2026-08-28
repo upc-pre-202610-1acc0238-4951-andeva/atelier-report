@@ -12,8 +12,6 @@ En el siguiente cuadro se describe las acciones realizadas y enunciados de concl
 \hline
 \endfirsthead
 
-\multicolumn{3}{c}%
-{{\bfseries Tabla continuada de la página anterior}} \\
 \hline
 \textbf{Criterio Específico} & \textbf{Acciones Realizadas} & \textbf{Conclusiones} \\
 \hline
@@ -96,5 +94,6 @@ Conclusión grupal...
 \\
 
 \end{longtable}
+\addtocounter{table}{-1}
 
 \newpage

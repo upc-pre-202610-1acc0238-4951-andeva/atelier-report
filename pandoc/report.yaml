@@ -58,6 +58,10 @@ variables:
       \renewcommand{\tableofcontents}{\@starttoc{toc}}
       \makeatother
     - |
+      \usepackage{tabularx}
+      \usepackage{multirow}
+      \usepackage{array}
+    - |
       % Configuración de APA 7 para Tablas y Figuras
       \usepackage{caption}
       \captionsetup{
