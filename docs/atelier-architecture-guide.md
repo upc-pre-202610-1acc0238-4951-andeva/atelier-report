@@ -21,9 +21,9 @@ Para abarcar todo el mercado, Atelier soporta los dos ecosistemas de telemetría
 
 ---
 
-## 2. Fase 1: Curso de Dispositivos Móviles
+## 2. Fase 1:
 
-Para cumplir con el requerimiento académico de usar **Kotlin y Flutter**, el equipo aplicará una estrategia de **"Clonación Académica"**. Se desarrollará exactamente la misma aplicación ("Atelier Workshop") en ambas tecnologías, permitiendo evaluar al final del curso cuál se queda para producción.
+Para cumplir con el requerimiento académico de usar **Kotlin y Flutter**. Se desarrollará exactamente la misma aplicación ("Atelier Workshop") en ambas tecnologías, permitiendo evaluar al final del curso cuál se queda para producción.
 
 ### App: "Atelier Workshop"
 
@@ -36,7 +36,7 @@ La aplicación unificará al Dueño y al Mecánico utilizando Control de Acceso 
 ### A. Implementación en Flutter (Multiplataforma)
 
 - **Alcance:** iOS, Android, y opcionalmente Web (perfecto para que el Manager vea todo en su computadora).
-- **Módulo Bluetooth:** Se usarán paquetes como `flutter_bluetooth_serial` o `flutter_blue_plus`.
+- **Módulo Bluetooth (Recurso Interno):** Se usarán paquetes como `flutter_bluetooth_serial` o `flutter_blue_plus`. Para efectos de demostración académica (sin un auto real en el salón), la aplicación se conectará a un "simulador OBD2" (que puede ser un script en una laptop o un escáner ELM327 conectado a un simulador de ECU) enviando PIDs falsos.
 - **Procesamiento OBD2:** El código enviará PIDs estándar en hexadecimal (ej. `010C` para RPM) al dispositivo, parseará la respuesta y la enviará al backend Java como JSON.
 
 ### B. Implementación en Kotlin (Android Nativo)
@@ -47,7 +47,7 @@ La aplicación unificará al Dueño y al Mecánico utilizando Control de Acceso 
 
 ---
 
-## 3. Fase 2: Curso de IoT
+## 3. Fase 2:
 
 En el curso de IoT, demostrarás la ingesta de los dispositivos **OBD2 con SIM (Tipo A)**.
 

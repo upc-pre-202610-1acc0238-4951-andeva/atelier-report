@@ -61,8 +61,9 @@ nocite: '[@*]'
         \textbf{Código} & \textbf{Apellidos y Nombres} \\[0.2cm]
         u20241E401 & Granda Ibarra, Luis Daniel \\
         u20241E275 & Huamani Estefanero, Joel \\
+        u202411243 & Rocha Cotrina, Alvaro \\
         u20241E287 & Sanchez Santin, Adiel Abdiaz \\
-        u202417448 & Teran Zavala, Mauricio Alejandro \\
+        u202417423 & Teran Zavala, Mauricio Alejandro \\
     \end{tabular} \par
     }
     
@@ -73,3 +74,5 @@ nocite: '[@*]'
     \textbf{Septiembre 2026} \par
     }
 \end{titlepage}
+
+\newpage
