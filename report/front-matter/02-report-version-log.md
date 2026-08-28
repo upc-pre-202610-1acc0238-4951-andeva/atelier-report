@@ -5,7 +5,7 @@
 |0.8.0|28/08/2026|Huamani Estefanero, Joel|Añadido de la sección de ***Descripción de la Startup*** y documentación con las definiciones de Atelier.|
 |0.10.0|28/08/2026|Huamani Estefanero, Joel|Realización de la técnica 5W's y 2H's para la sección de ***Antecedentes y Problemática***.|
 |0.10.0|28/08/2026|Huamani Estefanero, Joel|Añadido completo de la sección de ***Antecedentes y Problemática*** en base a las fuentes encontradas.|
-|             |           |           |                                 |
+|0.11.0|28/08/2026|Huamani Estefanero, Joel|Añadido de la sección de **Segmentos Objetivo** con datos demográficos.|
 |             |           |           |                                 |
 |             |           |           |                                 |
 |             |           |           |                                 |
