@@ -2,7 +2,7 @@ from: markdown
 standalone: true
 toc: false
 toc-depth: 4
-number-sections: true
+number-sections: false
 citeproc: true
 template: pandoc/template/eisvogel.tex
 pdf-engine: lualatex
@@ -11,6 +11,13 @@ resource-path:
   - .
   - report
   - report/assets
+
+metadata:
+  lang: es-ES
+  figureTitle: "Figura"
+  tableTitle: "Tabla"
+  figPrefix: "Figura"
+  tblPrefix: "Tabla"
 
 variables:
   graphics: true
@@ -45,6 +52,37 @@ variables:
         \renewcommand{\headrulewidth}{0pt}
         \fancyhead[R]{\thepage}
       }
+    - |
+      % Quitar título automático de índice
+      \makeatletter
+      \renewcommand{\tableofcontents}{\@starttoc{toc}}
+      \makeatother
+    - |
+      % Configuración de APA 7 para Tablas y Figuras
+      \usepackage{caption}
+      \captionsetup{
+        labelsep=newline,
+        justification=raggedright,
+        singlelinecheck=false,
+        textfont={it, color=black},
+        labelfont={bf, color=black},
+        skip=10pt
+      }
+      \captionsetup[table]{position=top}
+      \captionsetup[figure]{position=top}
+      
+      % Forzar el título de las figuras en la parte superior (APA 7)
+      \floatstyle{plaintop}
+      \restylefloat{figure}
+      
+      % Renombrar 'Cuadro' a 'Tabla' (ya que babel español usa Cuadro por defecto)
+      \AtBeginDocument{
+        \renewcommand{\tablename}{Tabla}
+        \renewcommand{\listtablename}{Índice de tablas}
+      }
+
+filters:
+  - pandoc-crossref
 
 bibliography:
   - report/bibliography/references.bib

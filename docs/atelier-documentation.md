@@ -1,293 +1,156 @@
-# Documentación Técnica de Atelier
+# ANDEVA: STARTUP PROFILE
 
-## 1. Visión General de Atelier (Product Overview)
+## Descripción de la Startup
 
-**Atelier** es una plataforma ecosistémica B2B2C operando bajo un modelo de Software como Servicio (SaaS). Ha sido diseñada bajo una arquitectura moderna para revolucionar la industria de los talleres mecánicos y centros de servicio automotriz. 
+Andeva es un equipo especializado de ingeniería de software dedicado al diseño y desarrollo de soluciones tecnológicas de vanguardia. Nuestro propósito fundamental es resolver desafíos complejos a través de la innovación, construyendo herramientas digitales eficientes, escalables y centradas en el usuario que impulsen la transformación y el progreso en un entorno tecnológico exigente.
 
-A diferencia de los sistemas tradicionales, Atelier no es solo un software de facturación o gestión de inventario; es una solución de espectro completo que fusiona un **ERP** (Enterprise Resource Planning), un sistema **MRO** (Mantenimiento, Reparación y Operaciones), y un núcleo de **Telemetría IoT** con Inteligencia Artificial. Esto permite a los talleres administrar todos los aspectos de su negocio de manera digital, desde la llegada del vehículo y el seguimiento en tiempo real del trabajo de los mecánicos, hasta la predicción temprana de fallas mecánicas utilizando dispositivos de escaneo en los vehículos de sus clientes.
+## Significado del nombre
 
----
+El nombre **Andeva** encapsula la esencia de nuestra identidad y nuestra vocación creadora. Nace de la fusión armónica de dos conceptos poderosos:
 
-## 2. Características Clave (Core Features)
+* **Andes:** Representa nuestro lugar de origen y el profundo arraigo a la riqueza de la cultura peruana. Simboliza la majestuosidad, la solidez y la visión de altura con la que abordamos cada desafío tecnológico.
+* **Eva:** Cuyo significado universal es "la que da vida". Este concepto refleja directamente nuestro ADN tecnológico y carácter innovador: la capacidad de concebir ideas disruptivas y darles vida mediante la creación de productos de software de la más alta calidad.
 
-El sistema ha sido subdividido estratégicamente para cubrir cada arista del negocio automotriz:
+Juntos, Andeva expresa nuestro compromiso de crear tecnología viva, útil y trascendente desde el Perú hacia el futuro.
 
-* **Módulo de Mantenimiento, Reparación y Operaciones (MRO):** Trazabilidad física del vehículo en el taller, control de bahías/elevadores en tiempo real (Kanban), y asignación de tiempos de mano de obra a mecánicos específicos.
-* **Telemetría IoT y Mantenimiento Predictivo (Core Diferenciador):** Integración con escáneres físicos (OBD2) para capturar telemetría (RPM, temperatura, códigos de fallo DTC) directamente de los sensores de los vehículos. Mediante algoritmos predictivos, el sistema alerta al taller para vender servicios proactivos al cliente antes de que ocurra una falla catastrófica.
-* **ERP Integral (Inventario, Asistencia y Planillas):** Control estricto de repuestos con metodología de costos FIFO (First-In, First-Out), gestión de compras a proveedores, control de asistencia mediante geocercas GPS, y cálculo automatizado de nóminas (sueldos).
-* **Autorización y Multi-tenancy (RBAC):** Arquitectura Multi-tenant pura con propagación de `tenant_id` y control de acceso basado en roles (Role-Based Access Control), asegurando un aislamiento total de la data entre diferentes talleres que usan el sistema.
-* **Facturación SaaS y Cumplimiento Tributario:** Motor dual de facturación; por un lado, cobra a los talleres la suscripción por usar la plataforma de forma automatizada, y por el otro, emite facturas electrónicas válidas por la SUNAT para los clientes finales del taller.
+## Objetivo (Misión)
 
----
+Diseñar y desarrollar soluciones de software innovadoras que empoderen a las organizaciones y a las personas. Buscamos brindar herramientas tecnológicas de primera categoría que optimicen procesos, fomenten la creatividad y resuelvan problemas complejos, garantizando siempre la máxima calidad técnica y una experiencia de usuario excepcional.
 
-## 3. Tech Stack y Ecosistema Tecnológico
+## Visión
 
-La arquitectura de Atelier ha sido seleccionada cuidadosamente para cumplir con estándares empresariales de alta disponibilidad, seguridad y resiliencia.
+Ser el equipo de ingeniería de software líder y referente tecnológico a nivel internacional, reconocido por nuestra capacidad de innovar y dar vida a productos digitales excepcionales. Aspiramos a construir ecosistemas tecnológicos que definan los estándares del mañana, manteniendo siempre nuestro compromiso inquebrantable con la excelencia y el orgullo por nuestra identidad cultural.
 
-### 3.1. Arquitectura Backend (Java & Spring Boot)
-El backend emplea **Spring Boot 3.5.5** (la última versión estable compatible con **Java 24** a agosto de 2025), utilizando **Spring MVC** para la creación de endpoints RESTFul escalables, **Spring Data JPA** para las interacciones seguras con la base de datos relacional, y **Maven** para la gestión estricta de dependencias (incluyendo bibliotecas centrales como `spring-boot-starter-web` y `spring-boot-starter-data-jpa`).
+## Nuestro Producto Principal: Atelier
 
-Aprovechando las características más modernas de **Java 24** (tales como *records* para el transporte inmutable de datos y *pattern matching* para lógicas de control eficientes) y las mejoras estructurales de Spring Boot 3.5.5 (como el soporte mejorado para compilación nativa con **GraalVM** y características avanzadas de **observabilidad** para el monitoreo de microservicios), el backend garantiza un procesamiento robusto y de muy baja latencia. Se ha integrado adicionalmente **Caffeine Cache (L1)** a nivel de aplicación para reducir drásticamente las consultas repetitivas a la base de datos en catálogos y permisos estáticos.
+Nuestro principal producto, **Atelier**, es un ecosistema de software (SaaS) diseñado para transformar radicalmente el modelo operativo tradicional de los talleres automotrices, evolucionándolo de un enfoque reactivo a uno proactivo, preventivo e inteligente. Más allá de modernizar la gestión diaria, Atelier funciona como un completo sistema ERP y MRO que otorga al taller control total sobre sus ámbitos administrativos (personal, inventario, citas, órdenes de trabajo) y económicos (cobranza y facturación), logrando fidelizar clientes y reducir drásticamente los costos asociados a averías graves.
 
-### 3.2. Integración de Pagos (Stripe) y Reutilización (KMM)
-El equipo busca integrar **Stripe** utilizando la dependencia oficial `stripe-java` (versión 26.x.x, la cual es nativamente compatible con Java 24) para habilitar un procesamiento de pagos seguro y elásticamente escalable para reparaciones vehiculares, suscripciones SaaS o pagos únicos en plataformas web y móviles. 
+El corazón de la innovación de Atelier, que nos permite ofrecer este mantenimiento preventivo, es un software capaz de reconocer e integrarse con cualquier dispositivo OBD2 del mercado. Mediante la telemetría —ya sea conectando OBD2 con tarjeta SIM directa al servidor, o vía Bluetooth/WiFi utilizando el smartphone del conductor como *gateway*— el sistema anticipa los fallos vehiculares y automatiza el flujo de servicio.
 
-Las motivaciones para esta arquitectura unificada incluyen:
-1. **Garantizar el cumplimiento normativo PCI-DSS**, delegando la tokenización de tarjetas a la infraestructura de Stripe.
-2. **Maximizar la reutilización de código mediante Kotlin Multiplatform Mobile (KMM)**, permitiendo compartir lógicas de negocio, validaciones y modelos de datos entre las aplicaciones móviles (Android/iOS) y el ecosistema web.
-3. Ofrecer experiencias de usuario altamente fluidas y consistentes tanto en web como en móvil.
-4. Mantener un procesamiento robusto en el backend para webhook idempotency.
-5. Alinear con los requisitos comerciales para desplegar soluciones de pago rentables, fiables y conformes a los estándares internacionales.
+El ecosistema se divide estratégicamente en dos fases para conectar a todos los actores del proceso:
 
----
+* **Atelier Workshop (Fase 1):** Una completa Aplicación Web y Móvil orientada al segmento B2B (dueños y empleados del taller). Con una sólida arquitectura multi-tenant y un estricto control de acceso basado en roles (RBAC), garantiza que cada miembro del equipo —desde el dueño con control global, hasta el administrador de sucursal o el mecánico en la zona de trabajo— disponga exactamente de las herramientas e información que necesita para operar con máxima eficiencia.
+* **Atelier Driver (Fase 2):** Una Aplicación Móvil orientada a los clientes finales, que pueden ser conductores individuales o empresas con flotas vehiculares. Funciona como portal de interacción directa: los usuarios con el servicio OBD2 contratado reciben diagnósticos y alertas preventivas en tiempo real. Para los vehículos sin telemetría activa, la aplicación sigue siendo un canal indispensable para agendar citas, consultar presupuestos y revisar el historial de reparaciones y mantenimientos, integrándose orgánicamente con el ERP del taller.
 
-## 4. Integración de Servicios Externos de Bajo Costo
+## Features Principales del Ecosistema
 
-Para construir el ecosistema de Atelier manteniendo la rentabilidad y un alto estándar de calidad, el equipo ha orquestado la integración de múltiples APIs de terceros utilizando capas gratuitas (Free Tiers) o esquemas de pago por uso (Pay-as-you-go). 
+### 1. Telemetría IoT y Mantenimiento Predictivo
+El servicio premium y diferencial que los talleres ofrecen a sus clientes mediante OBD2 (SIM o BLE/WiFi). Atelier monitoriza constantemente los PIDs (datos en tiempo real) y los códigos de falla (DTC). Ante cualquier anomalía, el sistema envía una alerta simultánea al taller y a la aplicación móvil del cliente (Atelier Driver), permitiendo actuar antes de que ocurra una avería grave. Para los usuarios que no contratan este servicio, la app Driver sigue siendo indispensable para gestionar historiales y agendar citas, pero la telemetría está estrictamente vinculada a los OBD2 configurados de manera exclusiva por el taller hacia los servidores de Atelier.
 
-### 4.1. Despliegue en la Nube y Base de Datos (Render & Aiven)
-* **El Reto:** Alojamiento de la API RESTFul construida en Spring Boot 3.5.5 y gestión masiva de datos IoT sin incurrir en costos masivos.
-* **La Solución:** El código fuente activará un pipeline CI/CD hacia **Render**. Para la base de datos PostgreSQL, se utilizará una instancia administrada en **Aiven**, aprovechando su soporte nativo para la extensión **TimescaleDB**. Esto permitirá manejar altas frecuencias de telemetría manteniendo la capacidad de hacer JOINs con el ERP relacional.
+### 2. Gestión de Inventario Inteligente (Método FIFO)
+Un sistema riguroso para la administración de stock (repuestos y líquidos) basado en lotes bajo el principio de "Primeras Entradas, Primeras Salidas" (FIFO). Garantiza que cuando los insumos son asignados a una Orden de Trabajo, se descuenten con su costo de adquisición exacto. El sistema no impone precios de venta; el dueño del taller define sus propios márgenes. En caso de errores físicos en la manipulación (ej. tomar una bujía del lote más nuevo), el impacto financiero se mitiga, ya que contablemente se descarga el costo del lote que corresponde.
 
-### 4.2. Geolocalización y Geocercas (Google Maps Platform)
-* **El Reto:** Validar físicamente la asistencia de los empleados del taller mediante GPS.
-* **La Solución:** En el Frontend se integrará **Google Places API** para autocompletar direcciones. En el Backend, durante el marcaje de asistencia, se utilizará la **Fórmula del Haversine** para calcular la distancia en metros. Si el empleado excede la *Geocerca* (ej. 50m), el sistema rechazará la entrada. 
+### 3. Directorio de Proveedores e Ingreso Rápido de Lotes
+Módulo administrativo diseñado para el reabastecimiento eficiente del taller, enfocado en simplificar la carga cognitiva del usuario en el Frontend. En lugar de requerir complejas Órdenes y Líneas de Compra, el administrador registra sus proveedores habituales en un directorio simple (`suppliers`). Cuando llega nueva mercadería, el ingreso se registra con un solo clic como un nuevo lote (`inventory_batches`), permitiendo subir la foto de la boleta/factura directamente a Firebase Storage y estableciendo el costo exacto de esa compra para mantener la precisión matemática del método FIFO.
 
-### 4.3. Correos Transaccionales (SendGrid / Resend)
-* **La Solución:** Uso del Free Tier de **SendGrid** o **Resend**. Spring Boot utilizará eventos asíncronos (`@Async`) y un `WebClient` para inyectar el cuerpo HTML del correo sin bloquear el hilo de respuesta principal.
+### 4. MRO (Órdenes de Trabajo) y Trazabilidad
+El núcleo operativo del taller, estructurado desde el momento en que se genera una Cita.
+* **Flujo Operativo:** Una Cita se convierte en una Orden de Trabajo (OT). El administrador divide la OT en múltiples Tareas (`work_order_tasks`), asigna mecánicos y vincula los repuestos necesarios.
+* **Registro Visual y Financiero:** La OT centraliza las imágenes del vehículo al ingresar (`work_order_images`) y la evidencia fotográfica de la reparación finalizada (`work_order_task_images`). Además, las tareas y repuestos mantienen su propio costo integrado (`price`, `unit_price`), permitiendo que el Frontend renderice y recalcule la cotización total al cliente en tiempo real.
+* **Ejecución:** Los mecánicos interactúan únicamente con las tareas que les han sido asignadas en su app móvil (cambiando los estados: Pendiente > En Progreso > Finalizado). Al agregar un repuesto a su tarea, el sistema efectúa una "reserva" lógica inmediata contra el módulo de Inventario.
 
-### 4.4. Notificaciones Push y Alertas (Firebase Cloud Messaging - FCM)
-* **La Solución:** La App móvil obtendrá un `fcm_token`. Cuando la IA detecte un riesgo mecánico, Spring Boot buscará el token del propietario y ejecutará una llamada HTTP mediante el **Firebase Admin SDK for Java** (gratuito) haciendo sonar la alerta en el celular del cliente.
+### 5. Control de Personal e Identidad Profesional
+Módulo enfocado en la administración de recursos humanos del taller y el seguimiento de planillas (sueldo base, horas laboradas y control de asistencia).
+* **Onboarding Innovador:** Los empleados no se crean en el sistema de forma arbitraria. El taller envía una invitación al correo del empleado, quien se registra en Atelier creando su propio perfil profesional. Una vez registrado, el taller lo vincula oficialmente a su local. Si la relación laboral termina, el empleado simplemente es "desvinculado".
+* **Proyección a Futuro:** Al mantener su propia cuenta, el mecánico retiene su identidad digital y no necesita registrarse de nuevo si entra a otro taller que use Atelier. Eventualmente, esta base cimentará una red estilo *LinkedIn* para la industria automotriz, donde los talleres publicarán vacantes y los mecánicos independientes podrán postularse directamente desde su app.
 
-### 4.5. Facturación Electrónica SUNAT (Nubefact - PSE)
-* **La Solución:** Atelier delegará la firma de archivos UBL 2.1 mediante la API JSON V1 de **Nubefact** (Entorno Beta/Demo). Nubefact responderá inmediatamente con URLs (`sunat_pdf_url`, `sunat_xml_url`), las cuales Atelier guardará en la base de datos para mostrarlas en la interfaz.
+## Arquitectura Tecnológica y Stack de Desarrollo
 
----
+Atelier está diseñado bajo una arquitectura de nivel empresarial (Monolito Modular impulsado por Domain-Driven Design), utilizando servicios en la nube de alta resiliencia.
 
-## 5. Arquitectura de Software y Patrones Tácticos
+### Backend, Base de Datos y Caché
+* **Core:** Java 24 con Spring Boot 3.5.5, asegurando un procesamiento robusto y de muy baja latencia.
+* **Infraestructura en la Nube:** Despliegue en **Render** (para la API RESTFul) y **Aiven** (PostgreSQL).
+* **Telemetría IoT:** Uso de la extensión **TimescaleDB** dentro de Aiven para particionar y comprimir masivamente los datos en tiempo real provenientes de los dispositivos OBD2, permitiendo mantener históricos sin degradar el rendimiento del ERP.
+* **Estrategia de Caché en Memoria (Caffeine):** Para mitigar los tiempos de respuesta y aliviar masivamente los accesos a Aiven, se introduce una capa de caché local en Spring Boot (usando `Caffeine Cache`). Se aplica estrictamente a Bounded Contexts de alta lectura estática, tales como:
+  * *Roles y Permisos (IAM):* Leídos en cada petición HTTP para autorizar los endpoints (RBAC).
+  * *Planes de Suscripción:* Verificación rápida de los límites del plan contratado por el taller.
+  * *Catálogos de MRO e Inventario:* (`services`, `inventory_items`) Consultados de manera constante por los mecánicos para agregar a sus tareas.
 
-Atelier está estructurado como un **Monolito Modular** impulsado por los principios del **Domain-Driven Design (DDD)**. 
+### Integraciones Externas de Bajo Costo y Estrategia de Implementación
+Para construir este ecosistema manteniendo una alta resiliencia y viabilidad económica (aprovechando capas *Free Tier* y *Pay-as-you-go*), la arquitectura orquesta múltiples APIs bajo estrictos patrones de diseño:
 
-### 5.1. Patrones Arquitectónicos Aplicados
-* **Arquitectura Hexagonal (Ports and Adapters):** Cada módulo aísla su capa de Dominio (Entities, Value Objects, Domain Services) en el centro. Las interacciones hacia el exterior (Base de Datos, APIs externas) se realizan invirtiendo las dependencias a través de puertos (Interfaces) y adaptadores.
-* **CQRS Lógico (Command Query Responsibility Segregation):** Las operaciones transaccionales de escritura utilizan entidades de dominio (JPA), mientras que las consultas de lectura pesadas utilizan proyecciones inmutables (Java Records) vía repositorios directos en la misma base de datos unificada, esquivando la sobrecarga de la caché de sesión de Hibernate.
-* **Patrón Transactional Outbox:** Garantiza la consistencia eventual al integrar APIs (Stripe y Nubefact). Los eventos se guardan en la tabla local `outbox_messages` dentro de la transacción ACID del negocio, y un *worker* asíncrono los procesa con reintentos para asegurar entrega "Al menos una vez" (At-least-once).
-* **Anticorruption Layer (ACL):** Se han implementado capas de anticorrupción estrictas al integrar pasarelas externas (Stripe y Nubefact) para evitar que los modelos de datos de estas empresas contaminen los modelos de dominio de Atelier.
+* **Stripe (SaaS Billing y Pasarela de Pagos):**
+  * **Implementación:** Se integrará la dependencia oficial `stripe-java`. Las aplicaciones móviles delegarán la tokenización de tarjetas a los SDKs de Stripe, asegurando el cumplimiento de la norma PCI-DSS.
+  * **Arquitectura:** Para garantizar consistencia y evitar dobles cobros, el Backend manejará *Webhook Idempotency* (rechazando eventos duplicados) y utilizará el patrón *Transactional Outbox* para sincronizar los pagos exitosos con la base de datos central antes de emitir la factura.
+* **Nubefact (Facturación Electrónica SUNAT):**
+  * **Implementación:** Se utilizará la API JSON V1 de Nubefact (Entorno Beta/Demo para la validación académica). El backend enviará la trama de datos y Nubefact devolverá inmediatamente las URLs de los comprobantes (`sunat_pdf_url`, `sunat_xml_url`) para ser renderizados en la app.
+  * **Arquitectura:** Se aislará esta comunicación mediante una Capa Anticorrupción (ACL) para evitar que los modelos tributarios externos contaminen la lógica de dominio puro del ERP.
+* **Firebase Cloud Messaging - FCM (Alertas IoT Predictivas):**
+  * **Implementación:** Al iniciar sesión, las aplicaciones (Flutter/Kotlin) generarán un `fcm_token` único por dispositivo. Cuando el motor de telemetría alojado en Spring Boot detecte un fallo predictivo, utilizará el *Firebase Admin SDK* (gratuito) para "empujar" (Push) la alerta de manera simultánea e instantánea al celular del conductor y al dashboard del taller.
+* **Firebase Cloud Storage (Almacenamiento de Imágenes y Evidencia):**
+  * **Implementación:** Resuelve la necesidad de guardar evidencia visual del vehículo y las reparaciones. Para evitar saturar el servidor backend en Render con el procesamiento de archivos pesados, se empleará el patrón *Direct-to-Cloud*. La aplicación móvil subirá la imagen directamente a los buckets de Firebase mediante el SDK nativo. Firebase retornará una URL segura, y la app enviará únicamente esta URL en formato texto a la API de Spring Boot para ser almacenada en la base de datos relacional.
+* **SendGrid / Resend (Correos Transaccionales y Onboarding):**
+  * **Implementación:** Elemento central para el registro de empleados mediante invitación. Para mantener la alta concurrencia del backend, el envío de correos HTML se ejecutará de forma no bloqueante utilizando eventos asíncronos (`@Async`) y `WebClient` en Java, evitando pausar la respuesta HTTP del cliente.
+* **Google Maps Platform (Control de Personal y Geocercas):**
+  * **Implementación:** El frontend utilizará *Google Places API* para normalizar direcciones. Para la validación de asistencia (marcación de entrada/salida), el móvil enviará sus coordenadas GPS al backend. El servidor de Spring Boot utilizará la *Fórmula matemática del Haversine* para calcular la distancia métrica exacta. Si el empleado está fuera del radio de la sucursal (ej. 50m), el sistema rechazará su asistencia.
 
-### 5.2. Diseño Estratégico: Los 8 Bounded Contexts
-El sistema se divide en **8 Bounded Contexts** (paquetes Java), cada uno agrupando un subconjunto específico de las 39 tablas de la base de datos.
+### Ecosistema Móvil y Viabilidad del MVP
+Para las aplicaciones "Workshop" y "Driver", se aplicará un enfoque utilizando **Flutter** y **Kotlin**. 
 
-1. **IAM & Multi-tenant Context** (`com.atelier.iam` | *Generic*)
-   Gestiona RLS y RBAC. Tablas que lo conforman: `tenants`, `branches`, `users`, `profiles`, `user_devices`, `tenant_memberships`, `permissions`, `roles`, `role_permissions`, `membership_roles`, `audit_logs`, `notifications`.
-2. **CRM & Fleet Reception Context** (`com.atelier.crm` | *Supporting*)
-   Responsable del B2B2C. Tablas: `customers`, `vehicles`, `vehicle_ownerships`, `appointments`.
-3. **MRO / Workshop Operations Context** (`com.atelier.mro` | *Core Subdomain*)
-   Corazón operativo del taller. Tablas: `work_bays`, `work_orders`, `work_order_tasks`, `work_order_task_items`.
-4. **Supply Chain & Inventory Context** (`com.atelier.inventory` | *Supporting*)
-   Mini-ERP de logística FIFO. Tablas: `inventory_items`, `services`, `inventory_batches`, `supplier_invoices`, `purchase_lines`.
-5. **Human Resources Context** (`com.atelier.hr` | *Generic*)
-   Asistencia (Geocercas) y nóminas. Tablas: `work_shifts`, `attendance_records`, `payroll_payments`.
-6. **Invoicing & SUNAT Context** (`com.atelier.invoicing` | *Supporting*)
-   Capa ACL para comprobantes (Boletas/Facturas). Tablas: `electronic_vouchers`, `voucher_lines`.
-7. **SaaS Subscriptions Context** (`com.atelier.subscriptions` | *Generic*)
-   Capa ACL para la integración Stripe SaaS. Tablas: `plans`, `subscriptions`, `invoices`, `stripe_events`.
-8. **IoT Telemetry Context** (`com.atelier.iot` | *Core Subdomain*)
-   Núcleo diferenciador predictivo. Tablas: `obd2_devices`, `device_installations`, `telemetry_logs`, `vehicle_faults`, `predictive_alerts`.
+Durante la fase de validación (MVP/Proyecto Universitario), Atelier asegura el cumplimiento estricto de interacciones complejas exigidas a nivel académico:
+1. **Recursos de Hardware Interno:** Las aplicaciones interactúan con el hardware nativo (Bluetooth/BLE) para leer la telemetría del vehículo actuando como *Gateway*. En entornos de prueba académica (sin vehículos físicos), el sistema leerá los datos desde simuladores de hardware OBD2. Adicionalmente, se extraen las coordenadas GPS del dispositivo móvil para la validación algorítmica de geocercas.
+2. **Almacenamiento Local:** Uso de bases de datos locales (ej. SQLite / Room) para mantener historiales en caché y permitir el funcionamiento offline de los mecánicos dentro de zonas de baja cobertura en el taller.
+3. **Feature de Aprendizaje Autónomo:** El equipo implementará de forma autodidacta librerías avanzadas no provistas en el temario base (tales como el SDK nativo de *Stripe* para procesamiento de transacciones, o la comunicación Bluetooth serial de bajo nivel para la ingesta IoT).
 
----
+## Arquitectura de Software y Patrones Tácticos
 
-## 6. Diseño Táctico: Esquema de Base de Datos (Parte 1)
+El ecosistema Atelier está estructurado bajo los más altos estándares de ingeniería de software, operando como un **Monolito Modular** fuertemente impulsado por los principios del **Domain-Driven Design (DDD)**. 
 
-El modelo de datos relacional de Atelier consta de **39 tablas** alojadas en PostgreSQL, estructuradas bajo un estricto diseño multi-tenant. A continuación, se detallan las tablas de los primeros 4 Bounded Contexts.
-
-### Módulo 1: IAM & Multi-tenant (`com.atelier.iam`)
-
-#### 1. `tenants` (El Taller / Empresa)
-Identificador principal del workspace B2B.
-* `id` (UUID, PK, NOT NULL): Identificador único.
-* `name` (VARCHAR, NOT NULL): Nombre comercial.
-* `legal_name` (VARCHAR, NOT NULL): Razón Social (Obligatorio para Facturación).
-* `tax_id` (VARCHAR, UNIQUE): RUC de la empresa.
-* `stripe_customer_id` (VARCHAR, NULL): ID mapeado para cobros SaaS en Stripe.
-* `status` (VARCHAR, DEFAULT 'active'): Control de suscripción (`active`, `suspended`).
-
-#### 2. `branches` (Sucursales)
-* `id` (UUID, PK, NOT NULL): Identificador de sede.
-* `tenant_id` (UUID, FK, NOT NULL): Ref. a `tenants`.
-* `name` (VARCHAR, NOT NULL): Ej. Sede Miraflores.
-* `sunat_code` (VARCHAR, NOT NULL): Código de anexo SUNAT (Ej. `0000`).
-* `latitude` (DECIMAL, NULL): Coordenada GPS Y.
-* `longitude` (DECIMAL, NULL): Coordenada GPS X.
-* `geofence_radius_meters` (INT, DEFAULT 50): Radio para control de asistencia.
-
-#### 3. `users` & 4. `profiles`
-Tablas separadas para aislar credenciales de datos públicos.
-* `users.id` (UUID, PK): ID global.
-* `users.email` (VARCHAR, UNIQUE): Correo de acceso.
-* `users.password_hash` (VARCHAR): BCrypt hash.
-* `profiles.first_name` / `last_name` (VARCHAR): Nombres completos.
-
-#### 5. `user_devices`
-* `fcm_token` (VARCHAR, UNIQUE): Token de Firebase para Push Notifications.
-
-#### 6. `tenant_memberships` (Contratos de Empleados)
-* `id` (UUID, PK, NOT NULL).
-* `tenant_id` (UUID, FK, NOT NULL).
-* `user_id` (UUID, FK, NOT NULL).
-* `salary_type` (VARCHAR): `fixed`, `hourly`.
-* `base_salary` (DECIMAL): Sueldo pactado.
-
-#### 7 al 10. RBAC Tables (`roles`, `permissions`, `role_permissions`, `membership_roles`)
-Estructura estándar de seguridad para asignar permisos granulares (ej. `inventory:delete`) a los roles (`Mecánico`, `Administrador`) y luego al `membership_id` del empleado.
-
-### Módulo 2: CRM & Fleet Reception (`com.atelier.crm`)
-
-#### 11. `customers` (Directorio)
-* `id` (UUID, PK)
-* `tenant_id` (UUID, FK)
-* `type` (VARCHAR): `individual` (Persona) o `company` (Empresa).
-* `tax_id` (VARCHAR): DNI o RUC.
-
-#### 12. `vehicles` & 13. `vehicle_ownerships`
-* `vehicles.plate` (VARCHAR, UNIQUE): Placa vehicular.
-* `vehicles.vin` (VARCHAR, UNIQUE): Número de chasis.
-* `vehicle_ownerships.customer_id` (UUID, FK): Mantiene el historial de dueños si el auto es vendido de un cliente a otro.
-
-#### 14. `appointments` (Citas)
-* `id`, `tenant_id`, `branch_id`, `customer_id`, `vehicle_id`.
-* `scheduled_at` (TIMESTAMP): Fecha pactada.
-* `status` (VARCHAR): `pending`, `confirmed`, `arrived`.
-
-### Módulo 3: MRO / Workshop Operations (`com.atelier.mro`)
-
-#### 15. `work_bays` (Bahías Físicas)
-* `id`, `tenant_id`, `branch_id`.
-* `type` (VARCHAR): `lift` (Elevador), `paint_booth` (Pintura).
-
-#### 16. `work_orders` (Órdenes de Trabajo)
-* `id` (UUID, PK, NOT NULL).
-* `appointment_id` (UUID, FK): Derivada de una cita.
-* `current_bay_id` (UUID, FK): Localización física en tiempo real.
-* `odometer` (INT): Kilometraje de ingreso.
-* `status` (VARCHAR): `diagnosing`, `in_progress`, `ready`.
-
-#### 17. `work_order_tasks` (Asignación de Mano de Obra)
-* `work_order_id` (UUID, FK).
-* `service_id` (UUID, FK): Qué se va a hacer (ej. Cambio de Aceite).
-* `mechanic_id` (UUID, FK ref. `tenant_memberships`): Quién lo va a hacer.
-
-#### 18. `work_order_task_items` (Consumo de Almacén)
-* `task_id` (UUID, FK).
-* `item_id` (UUID, FK ref. `inventory_items`): Qué repuesto físico usó el mecánico.
-* `quantity` (DECIMAL): Cantidad utilizada.
-
-### Módulo 4: Supply Chain & Inventory (`com.atelier.inventory`)
-
-#### 19. `inventory_items` & 20. `services`
-* Catálogo de productos físicos y mano de obra abstracta. `inventory_items` posee `total_stock` (Auto-calculado) y `base_sale_price`.
-
-#### 21. `inventory_batches` (Lotes FIFO)
-* `id`, `tenant_id`, `item_id`.
-* `unit_cost` (DECIMAL): Costo exacto de compra de ese lote (Vital para saber la rentabilidad real).
-* `initial_qty` / `remaining_qty` (DECIMAL): Control de cantidades.
-
-#### 22. `supplier_invoices` & 23. `purchase_lines`
-* Registra los gastos a proveedores mayoristas inyectando nuevas unidades a `inventory_batches`.
-* `sunat_document` (VARCHAR): Tipo de comprobante de compra (Ej. `01` Factura).
-
----
-
-## 7. Diseño Táctico: Esquema de Base de Datos (Parte 2)
-
-A continuación, se detallan las tablas correspondientes a los módulos de Recursos Humanos, Facturación, Suscripciones e IoT.
-
-### Módulo 5: Human Resources (`com.atelier.hr`)
-
-#### 24. `work_shifts` (Turnos de Trabajo)
-* `id` (UUID, PK, NOT NULL).
-* `tenant_id` (UUID, FK).
-* `name` (VARCHAR): Ej. "Turno Madrugada".
-* `start_time` / `end_time` (TIME): Horario oficial.
-* `grace_period_minutes` (INT): Tolerancia de tardanza (ej. 15).
-
-#### 25. `attendance_records` (Marcaciones / Geocerca)
-* `id` (UUID, PK).
-* `membership_id` (UUID, FK): Empleado que marca.
-* `clock_in` (TIMESTAMP): Hora exacta de validación GPS.
-* `status` (VARCHAR): `on_time`, `late`, `absent`. (Calculado contra el `work_shift`).
-
-#### 26. `payroll_payments` (Planillas / Nóminas)
-* `id` (UUID, PK).
-* `membership_id` (UUID, FK).
-* `base_amount` (DECIMAL): Salario base del mes.
-* `deductions` (DECIMAL): Descuentos generados automáticamente por tardanzas en `attendance_records`.
-* `total_paid` (DECIMAL): Monto final a transferir.
-
-### Módulo 6: Invoicing & SUNAT (`com.atelier.invoicing`)
-
-#### 27. `electronic_vouchers` (Comprobantes de Pago)
-* `id` (UUID, PK, NOT NULL).
-* `tenant_id` (UUID, FK).
-* `document_type` (VARCHAR): `01` (Factura) o `02` (Boleta).
-* `serie` (VARCHAR): Ej. `F001`.
-* `numero` (INT): Correlativo autoincremental de la serie (Ej. 1, 2, 3).
-* `total_amount` (DECIMAL): Suma total + IGV.
-* `sunat_pdf_url` / `sunat_xml_url` (VARCHAR): Enlaces proporcionados por Nubefact tras validar el JSON.
-
-#### 28. `voucher_lines` (Detalle del Comprobante)
-* `voucher_id` (UUID, FK).
-* `quantity` (DECIMAL): Cantidad.
-* `unit_price` (DECIMAL): Precio unitario sin IGV (Exigido por Nubefact).
-* `total_line` (DECIMAL): Subtotal.
-
-### Módulo 7: SaaS Subscriptions (`com.atelier.subscriptions`)
-
-#### 29. `plans` & 30. `subscriptions`
-* `plans.stripe_price_id` (VARCHAR): Identificador en Stripe (ej. `price_1N2M...`).
-* `subscriptions.stripe_subscription_id` (VARCHAR): ID de la suscripción recurrente.
-* `subscriptions.status` (VARCHAR): `active`, `past_due`, `canceled`.
-
-#### 31. `invoices` & 32. `stripe_events`
-* `invoices.amount_paid` (DECIMAL): Cobro a la tarjeta del Taller.
-* `stripe_events.stripe_event_id` (VARCHAR, UNIQUE): Evita Webhook Idempotency (Si Stripe falla y manda el evento 2 veces, la base de datos rechaza el segundo).
-
-### Módulo 8: IoT & Telemetría Predictiva (`com.atelier.iot`)
-
-#### 33. `obd2_devices` & 34. `device_installations`
-* `obd2_devices.id` (UUID, PK)
-* `obd2_devices.tenant_id` (UUID, FK): Vital para Multi-tenant. Define qué taller es dueño del hardware.
-* `obd2_devices.device_identifier` (VARCHAR, UNIQUE): IMEI (para equipos con SIM) o MAC Address (para Bluetooth).
-* `obd2_devices.connection_type` (VARCHAR): `bluetooth`, `sim_cellular`.
-* `device_installations.vehicle_id` (UUID, FK): Conecta el hardware al auto físico del cliente en un periodo de tiempo.
-
-#### 35. `telemetry_logs` (TimescaleDB Hypertable)
-* `id` (UUID, PK) *Nota: Optimizado para hiper-inserciones y compresión.*
-* `tenant_id` (UUID, FK): Desnormalizado para agregaciones analíticas instantáneas por taller sin realizar JOINs masivos.
-* `vehicle_id` (UUID, FK): Vehículo que generó la telemetría.
-* `timestamp` (TIMESTAMP): **Utilizado como clave de partición (Time chunk) por TimescaleDB.**
-* `latitude` (DECIMAL): Coordenada GPS Y (Crucial para rastreo de flotas).
-* `longitude` (DECIMAL): Coordenada GPS X.
-* `speed` (INT): Velocidad actual del vehículo.
-* `engine_temp` (DECIMAL): Temperatura del motor en °C.
-* `rpm` (INT): Revoluciones por minuto en tiempo real.
-
-#### 36. `vehicle_faults` (Códigos de Error - DTC)
-* `vehicle_id` (UUID, FK).
-* `dtc_code` (VARCHAR): Ej. `P0420` (Fallo de convertidor catalítico).
-* `severity` (VARCHAR): `low`, `critical`.
-
-#### 37. `predictive_alerts` (Mantenimiento Proactivo IA)
-* `vehicle_id` (UUID, FK).
-* `confidence_score` (DECIMAL): Porcentaje de certeza del algoritmo (ej. `88.5%`).
-* `recommended_service_id` (UUID, FK): Cruza directamente con el módulo de Inventario para enviarle una notificación Push al cliente sugiriendo comprar ese servicio específico preventivamente.
-
----
-
-## 8. Consideraciones y Mejoras Arquitectónicas (Decisiones Recientes)
-
-Tras una revisión arquitectónica del proyecto, se han incorporado las siguientes decisiones clave (ADR) para garantizar la viabilidad y resiliencia del sistema:
-
-1. **Migración a Aiven PostgreSQL (TimescaleDB):** Se sustituye Neon Serverless por Aiven. Esto permite usar **TimescaleDB** como una extensión nativa, transformando `telemetry_logs` en una *Hypertable* optimizada para Time-Series, manteniendo la capacidad de hacer JOINs con las tablas del ERP sin requerir bases de datos políglotas como MongoDB.
-2. **Patrón Transactional Outbox:** Para evitar inconsistencias entre cobros exitosos (Stripe) y facturas fallidas (Nubefact/SUNAT), se insertará un evento en una tabla común (`outbox_messages`) en la misma transacción de base de datos. Un *worker* asíncrono (`@Scheduled`) leerá y enviará estas peticiones garantizando entrega al menos una vez (At-least-once delivery).
-3. **CQRS Lógico:** En lugar de implementar bases separadas para lectura y escritura, se usará la misma base de datos relacional. Las escrituras se harán a través de Spring Data JPA, mientras que las lecturas masivas usarán **Java 24 Records** y proyecciones SQL ligeras para esquivar la sobrecarga de Hibernate.
-4. **Caffeine Cache (L1):** Se introduce una capa de caché en memoria para los Bounded Contexts de alta lectura estática (Roles de IAM, Planes de Suscripción, Catálogos de MRO). Esto mitiga los tiempos de respuesta y alivia los accesos a Aiven.
+### Patrones Arquitectónicos Aplicados
+Para asegurar que el sistema sea mantenible, escalable y tolerante a fallos, se han aplicado los siguientes patrones:
+
+* **Arquitectura Hexagonal (Ports and Adapters):** Cada módulo aísla su lógica de negocio pura (Dominio) en el centro. Las interacciones con el exterior (Base de datos PostgreSQL, APIs de Stripe o Nubefact, simuladores Bluetooth OBD2) se realizan invirtiendo las dependencias mediante puertos (Interfaces) y adaptadores, lo que permite intercambiar tecnologías (ej. cambiar de Nubefact a otro facturador electrónico) sin afectar el núcleo del sistema.
+* **CQRS Lógico (Command Query Responsibility Segregation):** Las operaciones transaccionales complejas (como descontar un repuesto físico bajo el método FIFO) utilizan entidades de dominio completas vía Spring Data JPA. Por otro lado, las consultas de lectura masivas (como cargar el historial histórico de reparaciones) evitan la sobrecarga de Hibernate utilizando proyecciones ligeras e inmutables (Java Records) atacando directamente a la base de datos.
+* **Patrón Transactional Outbox:** Garantiza la consistencia eventual al integrar APIs críticas. Por ejemplo, al realizar un cobro por Stripe y emitir una factura, el evento se guarda localmente en la transacción ACID del ERP y un *worker* asíncrono garantiza su envío a Nubefact "al menos una vez", evitando que el taller pierda dinero o evada impuestos si la conexión de red falla temporalmente.
+* **Capa Anticorrupción (ACL - Anticorruption Layer):** Se implementan barreras estrictas al interactuar con servicios de terceros para evitar que sus modelos de datos externos contaminen los modelos de dominio limpios de Atelier.
+
+### Diseño Estratégico y Modelado de Dominio (DDD)
+
+El ecosistema se ha modelado respetando estrictamente las fronteras lingüísticas (*Ubiquitous Language*) del negocio, evitando el antipatrón de las "Entidades Dios" (God Entities). Por ejemplo, el concepto de "Vehículo" se ha fragmentado: en el CRM es un activo de propiedad (VIN, dueño), en MRO es el sujeto de reparación (fotos, bahía asignada), y en IoT es un generador de flujos masivos de telemetría.
+
+#### 1. Categorización de Subdominios
+* **Core Domains (Diferenciadores clave del negocio):** IoT Telemetry (mantenimiento predictivo) y Workshop Operations (la operación central del taller).
+* **Supporting Subdomains (Apoyo indispensable):** Customer & Fleet Management y Inventory & Supply Chain.
+* **Generic Subdomains (Soluciones estándar):** IAM & Tenancy, HR Management, SaaS Billing (Stripe), e Invoicing (Nubefact).
+
+#### 2. Context Map y Patrones de Integración
+Las relaciones entre estos contextos utilizan patrones DDD canónicos:
+* **Anticorruption Layer (ACL):** Utilizado entre los contextos de facturación y las APIs externas (Stripe y Nubefact) para evitar que modelos de datos tributarios o bancarios de terceros infecten el dominio puro de Atelier.
+* **Customer / Supplier:** El contexto de CRM genera Citas (*Supplier*), las cuales son consumidas por el contexto MRO (*Customer*) para transformarlas operativamente en Órdenes de Trabajo.
+* **Conformist:** El `tenant_id` (originado en el contexto IAM) es compartido y respetado incondicionalmente por todos los demás contextos para garantizar la arquitectura Multi-Tenant de extremo a extremo.
+
+#### 3. Los 8 Bounded Contexts (Descripción Extendida)
+El sistema se divide orgánicamente en 8 subdominios delimitados, cada uno con un propósito altamente cohesivo y justificado:
+
+1. **Identity and Access Management (IAM) & Tenancy Context:**
+   * **Propósito y Por qué se creó:** Aislar la enorme complejidad de la seguridad, autenticación y multitenencia. Se creó para garantizar de forma monolítica que la data de un taller jamás se cruce con la de otro, y para cimentar la visión a futuro de una "Red Profesional de Mecánicos" al darles una identidad independiente.
+   * **Descripción:** Gestiona la partición Multi-Tenant, el control de acceso basado en roles (RBAC - Dueño, Administrador, Mecánico) y el innovador proceso de Onboarding del personal mediante invitaciones asíncronas por correo (SendGrid).
+
+2. **Customer and Fleet Management Context:**
+   * **Propósito y Por qué se creó:** Separar la gestión comercial y de relaciones públicas (B2C/B2B2C) de la dura operatividad mecánica del taller, centralizando la interacción con el cliente final.
+   * **Descripción:** Administra los perfiles de los conductores individuales, empresas con flotas vehiculares, el registro histórico de propiedad de los vehículos y el agendamiento de citas que los clientes realizan desde su aplicación cliente (Atelier Driver).
+
+3. **Workshop Operations Context (MRO - Maintenance, Repair, and Operations):**
+   * **Propósito y Por qué se creó:** Es el motor central del taller mecánico. Se delimitó para orquestar exclusivamente el flujo de trabajo, manteniendo los precios y subtotales locales de cada orden (para facilidad de cálculo en el Frontend) sin verse abrumado por detalles de facturación nacional (Invoicing) o suscripciones (SaaS Billing).
+   * **Descripción:** Controla el ciclo de vida de las Órdenes de Trabajo (OT). Transforma citas en OTs, divide el trabajo en Tareas, las asigna a los mecánicos, y centraliza el almacenamiento estructurado de imágenes en Firebase Storage.
+
+4. **Inventory and Supply Chain Context:**
+   * **Propósito y Por qué se creó:** Aislar la compleja lógica matemática y financiera del control de stock. Al contexto MRO no le importa de qué lote provino una pastilla de freno ni a qué proveedor se le compró; es Inventario quien maneja la complejidad de descontarla y resguardar el margen de ganancia.
+   * **Descripción:** Funciona como el core logístico. Garantiza la trazabilidad estricta de repuestos y líquidos mediante el método de costeo FIFO por Lotes. Gestiona también un directorio interno rápido de proveedores (`suppliers`) para enlazar las facturas o boletas de ingreso escaneadas (`receipt_image_url`) directamente a los lotes ingresados, simplificando la operación del usuario administrador.
+
+5. **Human Resources Management Context:**
+   * **Propósito y Por qué se creó:** Separar la "persona como usuario del sistema" (lógica de IAM) de la "persona como empleado que genera un gasto operativo y tiene un horario" (lógica de RRHH).
+   * **Descripción:** Gestiona los turnos laborales, el cálculo de planillas/salarios de los mecánicos y el control de asistencia. Esta asistencia es validada algorítmicamente contrastando el hardware GPS del celular del mecánico con las geocercas de la sucursal.
+
+6. **Invoicing and Compliance Context:**
+   * **Propósito y Por qué se creó:** La tributación (impuestos, XMLs fiscales) es un dominio muy volátil, rígido y específico por país. Se creó para encapsular las reglas impuestas por la SUNAT lejos del dominio de la reparación automotriz y del inventario.
+   * **Descripción:** Responsable de la emisión de comprobantes de pago electrónicos con validez legal (UBL 2.1). Protege al resto del sistema operando detrás de una Capa Anticorrupción (ACL) en su comunicación bidireccional con la API de Nubefact.
+
+7. **SaaS Billing and Subscriptions Context:**
+   * **Propósito y Por qué se creó:** Gestionar los ingresos propios de la startup *Andeva* (el pago que los talleres realizan mes a mes por usar Atelier) sin mezclarlo con la economía interna y la facturación a los clientes del taller (manejada por MRO e Invoicing).
+   * **Descripción:** Administra los cobros recurrentes de la suscripción SaaS, la pasarela de pagos y el cumplimiento de estándares de seguridad PCI-DSS, integrando la infraestructura de *Stripe* mediante mecanismos de resiliencia como Webhook Idempotency.
+
+8. **IoT Telemetry and Predictive Maintenance Context:**
+   * **Propósito y Por qué se creó:** Manejar el altísimo volumen de datos estructurados por tiempo (Time-Series) que generan los escáneres OBD2, evitando colapsar y ralentizar las bases de datos transaccionales (PostgreSQL) del ERP del taller.
+   * **Descripción:** El núcleo de la innovación de Andeva. Se encarga de la ingesta de telemetría masiva (vía tarjetas SIM o vía la app móvil actuando como Gateway Bluetooth) comprimiéndola en *TimescaleDB*. Procesa los PIDs (RPM, temperatura) y códigos de error (DTCs) para emitir alertas predictivas inmediatas (vía Firebase FCM) antes de que el motor sufra daños severos.
