@@ -8,7 +8,7 @@
 
 Andeva es un equipo especializado de ingeniería de software dedicado al diseño y desarrollo de soluciones tecnológicas de vanguardia. Nuestro propósito fundamental es resolver desafíos complejos a través de la innovación, construyendo herramientas digitales eficientes, escalables y centradas en el usuario que impulsen la transformación y la innovación en un entorno tecnológico exigente.
 
-El nombre Andeva encapsula la esencia de nuestra identidad y nuestra vocación creadora. Nace de los conceptos Andes, que representa nuestro lugar de origen y el profundo arraigo a la riqueza de la cultura peruana, y Eva, cuyo significado universal es "la que da vida". nJuntos, Andeva expresa nuestro compromiso de crear tecnología viva, útil y trascendente desde el Perú hacia el futuro.
+El nombre Andeva encapsula la esencia de nuestra identidad y nuestra vocación creadora. Nace de los conceptos Andes, que representa nuestro lugar de origen y el profundo arraigo a la riqueza de la cultura peruana, y Eva, cuyo significado universal es "la que da vida". Juntos, Andeva expresa nuestro compromiso de crear tecnología viva, útil y trascendente desde el Perú hacia el futuro.
 
 **Misión**
 
@@ -22,14 +22,95 @@ Nuestro principal producto, **Atelier**, es un ecosistema de software diseñado 
 
 **¿Qué es y cómo funciona Atelier?**
 
-El corazón de la innovación de **Atelier**, que nos permite ofrecer este mantenimiento preventivo, es un software capaz de reconocer e integrarse con cualquier dispositivo OBD2 del mercado. Mediante la telemetría, ya sea conectando OBD2 con tarjeta SIM directa al servidor, o vía Bluetooth/WiFi utilizando el smartphone del conductor como gateway, el sistema anticipa los fallos vehiculares atraves del flujo de datos extraidos o alertas DTC y automatiza el flujo de servicio.
+El corazón de la innovación de **Atelier**, que nos permite ofrecer este mantenimiento preventivo, es un software capaz de reconocer e integrarse con cualquier dispositivo OBD2 del mercado. Mediante la telemetría, ya sea conectando OBD2 con tarjeta SIM directa al servidor, o vía Bluetooth/WiFi utilizando el smartphone del conductor como gateway, el sistema anticipa los fallos vehiculares, a través del flujo de datos extraídos o alertas DTC y automatiza el flujo de servicio.
 
-El ecosistema se divide estratégicamente en dos fases para conectar a todos los actores del proceso, en este caso nos enfocaremos en el desarrollo de Atelier Workshop:
+El ecosistema se divide estratégicamente en dos fases para conectar a todos los actores del proceso; en este caso nos enfocaremos en el desarrollo de Atelier Workshop:
 
-**Atelier Workshop:** Una completa aplicación web y móvil orientada al segmento B2B. Con una sólida arquitectura multi-tenant y un estricto control de acceso basado en roles (RBAC), garantiza que cada miembro del equipo, desde el dueño con control global, hasta el administrador de sucursal o el mecánico en la zona de trabajo, disponga exactamente de las herramientas e información que necesita para operar con máxima eficiencia.
+**Atelier Workshop:** Una completa aplicación web y móvil orientada al segmento B2B. Con una sólida arquitectura multi-tenant y un estricto control de acceso basado en roles (RBAC), garantiza que cada miembro del equipo, desde el dueño con control global hasta el administrador de sucursal o el mecánico en la zona de trabajo, disponga exactamente de las herramientas e información que necesita para operar con máxima eficiencia.
 
 **Atelier Driver:** Una aplicación móvil orientada a los clientes finales, que pueden ser conductores individuales o empresas con flotas vehiculares. Funciona como portal de interacción directa: los usuarios con el servicio OBD2 contratado reciben diagnósticos y alertas preventivas en tiempo real. Para los vehículos sin telemetría activa, la aplicación sigue siendo un canal indispensable para agendar citas, consultar presupuestos y revisar el historial de reparaciones y mantenimientos, integrándose orgánicamente con el ERP del taller.
 
+![Imagotipo de Atelier](assets/logos/imagotipo-atelier.jpg){#fig:imagotipo-atelier}
+
+*Nota.* Primera version del branding del ecosistema de Atelier.
+
 ### 1.1.2. *Perfiles de Integrantes del Equipo*
+
+\begin{table}[htpb]
+    \centering
+    \caption{Startup Working Team Profile Matrix}
+    \label{tbl:startup-working-team-profile-matrix}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabularx}{\textwidth}{| m{2.5cm} | X | m{4.5cm} |}
+        \hline
+        \textbf{Foto} & \textbf{Nombre} & \textbf{Carrera} \\
+        \hline
+        
+        % ==============================
+        % Alumno 1
+        % ==============================
+        \multirow{5}{2.5cm}{\centering [Foto 1]} 
+        & Alumno 1 & [Carrera] \\
+        \cline{2-3}
+        & \multicolumn{2}{l|}{\textbf{Descripción}} \\
+        \cline{2-3}
+        & \multicolumn{2}{p{\dimexpr\textwidth-2.5cm-4\tabcolsep-3\arrayrulewidth\relax}|}{%
+            [Descripción del Alumno 1...]
+        } \\
+        \hline
+        
+        % ==============================
+        % Alumno 2
+        % ==============================
+        \multirow{5}{2.5cm}{\centering\includegraphics[width=2.2cm, keepaspectratio]{report/assets/startup-team-members/joel.jpg}} 
+        & Huamani Estefanero, Joel – U20241E275 & Ingeniería de Software \\
+        \cline{2-3}
+        & \multicolumn{2}{l|}{\textbf{Descripción}} \\
+        \cline{2-3}
+        & \multicolumn{2}{p{\dimexpr\textwidth-2.5cm-4\tabcolsep-3\arrayrulewidth\relax}|}{%
+            Soy Joel Huamani Estefanero, estudiante de la Universidad Peruana de Ciencias Aplicadas, tengo 20 años y actualmente lidero el ecosistema Atelier como CEO. Me especializo como desarrollador backend y arquitecto de software, con conocimientos técnicos en SQL, C++, Python, C\# y Java, destacando en este último mediante el uso del framework Spring Boot. Aplico arquitecturas como DDD, CQRS y Arquitectura Hexagonal, con el uso de patrones de diseño. Me considero una persona comprensiva con gran disposición para el trabajo en equipo, aparte de buscar mejorar y aprender a diario. Además de mi experiencia técnica, aportaré control, liderazgo y supervisión al grupo para asegurar un trabajo cohesionado y desarrollar productos de la mejor calidad.
+        } \\
+        \hline
+        
+        % ==============================
+        % Alumno 3
+        % ==============================
+        \multirow{5}{2.5cm}{\centering [Foto 3]} 
+        & Alumno 3 & [Carrera] \\
+        \cline{2-3}
+        & \multicolumn{2}{l|}{\textbf{Descripción}} \\
+        \cline{2-3}
+        & \multicolumn{2}{p{\dimexpr\textwidth-2.5cm-4\tabcolsep-3\arrayrulewidth\relax}|}{%
+            [Descripción del Alumno 3...]
+        } \\
+        \hline
+        
+        % ==============================
+        % Alumno 4
+        % ==============================
+        \multirow{5}{2.5cm}{\centering [Foto 4]} 
+        & Alumno 4 & [Carrera] \\
+        \cline{2-3}
+        & \multicolumn{2}{l|}{\textbf{Descripción}} \\
+        \cline{2-3}
+        & \multicolumn{2}{p{\dimexpr\textwidth-2.5cm-4\tabcolsep-3\arrayrulewidth\relax}|}{%
+            [Descripción del Alumno 4...]
+        } \\
+        \hline
+        
+        % ==============================
+        % Alumno 5
+        % ==============================
+        \multirow{5}{2.5cm}{\centering [Foto 5]} 
+        & Alumno 5 & [Carrera] \\
+        \cline{2-3}
+        & \multicolumn{2}{l|}{\textbf{Descripción}} \\
+        \cline{2-3}
+        & \multicolumn{2}{p{\dimexpr\textwidth-2.5cm-4\tabcolsep-3\arrayrulewidth\relax}|}{%
+            [Descripción del Alumno 5...]
+        } \\
+        \hline
+    \end{tabularx}
+\end{table}
 
 \newpage
