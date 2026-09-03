@@ -27,11 +27,11 @@ Para cumplir con el requerimiento académico de usar **Kotlin y Flutter**. Se de
 
 ### App: "Atelier Workshop"
 
-La aplicación unificará al Dueño y al Mecánico utilizando Control de Acceso Basado en Roles (RBAC), evitando el doble desarrollo a nivel de producto.
+La aplicación unificará a los dos segmentos objetivo utilizando Control de Acceso Basado en Roles (RBAC), evitando el doble desarrollo a nivel de producto.
 
 1. **Login y Backend (Java):** El servidor (Spring Boot) devuelve un token JWT con el rol del usuario (`MANAGER` o `MECHANIC`).
-2. **Vista de MANAGER (Dueño):** Muestra dashboards financieros, control de inventario, lista de vehículos y gestión de mecánicos.
-3. **Vista de MECHANIC (Empleado):** Oculta finanzas. Muestra autos asignados y una interfaz para conectarse al OBD2 Bluetooth, escanear errores y enviar telemetría a la nube.
+2. **Vista del Segmento de Gestión (Dueños/Admin):** Muestra dashboards financieros, control de inventario, facturación, lista de vehículos y gestión operativa.
+3. **Vista del Segmento Operativo (Mecánicos/Asesores):** Oculta finanzas. Muestra autos asignados, registro de actividades y una interfaz para conectarse al OBD2 Bluetooth, escanear errores y enviar telemetría a la nube.
 
 ### A. Implementación en Flutter (Multiplataforma)
 
@@ -47,9 +47,22 @@ La aplicación unificará al Dueño y al Mecánico utilizando Control de Acceso 
 
 ---
 
+### Estrategia de Sincronización Móvil (Offline-First)
+
+Tanto la implementación en Flutter como en Kotlin compartirán la misma base arquitectónica para operar en zonas sin internet (fosos de taller y calles sin cobertura, afectando al 49.1% de usuarios móviles sin plan de datos activo):
+1. **Cache Local (Lectura):** Room (Android) o SQLite/Isar (Flutter) almacenarán los catálogos estáticos y el historial de órdenes para que la interfaz cargue instantáneamente y sin depender de llamadas directas a red.
+2. **Sync Queue (Escritura):** Toda interacción de modificación de estado (marcar tarea completada, pedir cita) se registrará como un evento local.
+3. **Background Sync:** Al detectar que el dispositivo se conecta a una red Wi-Fi o 4G/5G, un *Worker* procesa en bloque (batch) todos los eventos encolados hacia el servidor en la nube (Spring Boot) asegurando la *Consistencia Eventual*.
+4. **Deferred Uploads:** Toda evidencia visual recolectada offline se guardará primero de forma local y se subirá asíncronamente a Firebase Storage antes de sincronizar la URL a la base de datos relacional.
+
+---
+
 ## 3. Fase 2:
 
-En el curso de IoT, demostrarás la ingesta de los dispositivos **OBD2 con SIM (Tipo A)**.
+En esta fase entraría en juego la aplicación orientada al **Segmento 3: Propietarios de Vehículos (Particulares y Flotas)** (Atelier Driver). 
+* **NOTA CRÍTICA DE DOCUMENTACIÓN (Regla AI):** Como se establece en el resto de la documentación base, este segmento 3 está **fuera del alcance** para la documentación de negocio actual (User Stories, UX). Sin embargo, a nivel de **Arquitectura (2.5.3)** y **Domain-Driven Design (2.6)**, sí modelaremos las interacciones, contenedores y dominios de esta aplicación para garantizar que el diseño backend soporte esta fase futura.
+
+En el curso de IoT, demostrarás la ingesta de los dispositivos **OBD2 con SIM (Tipo A)** que interactuarán con este segmento.
 
 ### Emulador de Hardware Comercial (Prueba de Concepto)
 

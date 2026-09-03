@@ -449,3 +449,19 @@ Tabla base de la arquitectura para garantizar la Consistencia Eventual. Los even
 | `payload` | `JSONB` | - | Sí | - | Los datos crudos a procesar (JSON) |
 | `status` | `VARCHAR(20)` | - | Sí | `'pending'`| `pending`, `processed`, `failed` |
 | `retry_count` | `INT` | - | Sí | `0` | Veces que el Worker (`@Scheduled`) re-intentó |
+
+## 9. Addendum: Modelo de Datos Local Móvil (Offline-First Sync Queue)
+Para soportar el modo offline en ambientes sin cobertura (49.1% de usuarios sin plan de datos constante o mecánicos en fosos), las aplicaciones de Atelier (Driver y Workshop) mantendrán bases de datos embebidas (Ej. Room en Android, Isar/SQLite en Flutter).
+
+Además de cachear catálogos (`services`, `inventory_items`) para lectura instantánea, la estructura vital para operar de forma desconectada será la cola de sincronización (Sync Queue) o "Transactional Outbox Móvil":
+
+### `pending_sync_events` (Cola de Sincronización Móvil)
+| Atributo | Tipo de Dato | Llave | Req. | Descripción |
+|----------|--------------|-------|------|-------------|
+| `id` | `UUID` | PK | Sí | Identificador local del evento |
+| `action_type`| `VARCHAR(100)`| - | Sí | Ej. `MARK_TASK_COMPLETED`, `UPLOAD_EVIDENCE` |
+| `payload` | `JSON` | - | Sí | Datos a enviar a la API cuando haya conexión (ej. `taskId`) |
+| `status` | `VARCHAR(20)` | - | Sí | `pending`, `syncing`, `failed` |
+| `created_at` | `TIMESTAMP` | - | Sí | Marca de tiempo en la que el usuario hizo la acción offline |
+
+*Esta tabla permite el diseño resiliente que procesará las actualizaciones diferidas cuando un Background Worker recupere la conexión a la red.*

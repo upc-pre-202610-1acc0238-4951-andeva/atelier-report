@@ -35,20 +35,20 @@ all: pdf c4 diagrams db-diagrams
 diagrams:
 	@echo Generating class diagrams from PlantUML sources...
 	$(MKDIR_CLASS_DIAGRAMS)
-	$(DOCKER) miyadav/plantuml:latest -tpng -o "/app/$(CLASS_DIAGRAM_OUT)" "/app/report/assets/diagram-sources/class-diagrams/*.puml"
+	$(DOCKER) ghcr.io/plantuml/plantuml -tpng -o "/app/$(CLASS_DIAGRAM_OUT)" "/app/report/assets/diagram-sources/class-diagrams/*.puml"
 	@echo Done.
 
 db-diagrams:
 	@echo Generating database diagrams from PlantUML sources...
 	$(MKDIR_DB_DIAGRAMS)
-	$(DOCKER) miyadav/plantuml:latest -tpng -o "/app/$(DB_DIAGRAM_OUT)" "/app/report/assets/diagram-sources/database-diagrams/*.puml"
+	$(DOCKER) ghcr.io/plantuml/plantuml -tpng -o "/app/$(DB_DIAGRAM_OUT)" "/app/report/assets/diagram-sources/database-diagrams/*.puml"
 	@echo Done.
 
 c4:
 	@echo Exportando modelo C4 DSL a PlantUML...
-	$(DOCKER) structurizr/cli export -workspace "/app/$(C4_WORKSPACE_FILE)" -format plantuml -output "/app/$(C4_EXPORT_DIR)"
+	$(DOCKER) -w "/app/report/assets/diagram-sources/c4-diagrams" structurizr/structurizr export -workspace "workspace.dsl" -format plantuml -output "/app/$(C4_EXPORT_DIR)"
 	@echo Generando imágenes PNG de los diagramas C4...
-	$(DOCKER) miyadav/plantuml:latest -tpng -o "/app/report/assets/c4-diagrams" "/app/$(C4_EXPORT_DIR)/*.puml"
+	$(DOCKER) ghcr.io/plantuml/plantuml -tpng -o "/app/report/assets/c4-diagrams" "/app/$(C4_EXPORT_DIR)/*.puml"
 	@echo Done C4 diagrams.
 
 pdf:
