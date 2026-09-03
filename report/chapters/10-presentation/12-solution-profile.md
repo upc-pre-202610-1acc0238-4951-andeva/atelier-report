@@ -91,22 +91,131 @@ El desarrollo de este ecosistema se encuentra delimitado por restricciones técn
 
 ### 1.2.2. *Lean UX Process*
 
-
-
 #### 1.2.2.1. Lean UX Problem Statements
 
+**El estado actual de** la industria del mantenimiento, reparación y operaciones automotrices (MRO) **se caracteriza principalmente por** un modelo puramente reactivo de *"reparar tras la avería"*, en el que dueños de talleres mecánicos tradicionales, técnicos y conductores de vehículos enfrentan diagnósticos manuales lentos y propensos a errores, descontrol de inventario de repuestos sin métodos de costeo estandarizados, ausencia total de trazabilidad operativa en las reparaciones y costos correctivos que superan entre un 300% y un 400% el valor de una intervención preventiva oportuna.
 
+**Lo que los productos y servicios existentes no logran abordar es** la ausencia de un ecosistema accesible, unificado y nativo en la nube que integre telemetría vehicular IoT en tiempo real sin imponer la adquisición de hardware propietario costoso con una plataforma de gestión integral de taller que aplique costeo de inventario estricto por lotes (FIFO), evidencia fotográfica digital inmutable, control de asistencia laboral por geocercas y cumplimiento tributario electrónico automatizado.
+
+**Nuestro producto abordará esta brecha mediante** **Atelier**, una plataforma SaaS bilateral y agnóstica en hardware, diseñada bajo Domain-Driven Design (DDD). Atelier conecta vehículos a través de escáneres OBD-II estándar del mercado (con SIM celular o vía Bluetooth usando el smartphone del conductor como *gateway*) para ingestar telemetría en series temporales y disparar alertas predictivas por notificaciones push. Simultáneamente, provee aplicaciones web y móviles especializadas por rol (*Atelier Workshop* para el taller y *Atelier Driver* para el conductor) que digitalizan el ciclo completo de órdenes de trabajo, automatizan el agendamiento de citas, protegen los márgenes de ganancia y entregan transparencia total al cliente final sobre el historial de su vehículo.
+
+**Nuestro enfoque inicial estará en** talleres automotrices independientes de pequeña y mediana escala (MYPEs), administradores de flotas livianas comerciales y conductores particulares de Lima Metropolitana.
+
+**¿Cómo podríamos** diseñar una plataforma que transforme la relación entre talleres y conductores, migrándola de un modelo correctivo y opaco hacia un ecosistema preventivo, transparente y basado en datos telemétricos en tiempo real, sin exigir inversiones prohibitivas en hardware propietario?
+
+**Sabremos que tenemos éxito cuando observemos** los siguientes cambios medibles en el comportamiento de nuestro público objetivo:
+
+1. Al menos el **35% de las citas de servicio** agendadas en los talleres afiliados se originen directamente a partir de alertas telemétricas predictivas automáticas (desviaciones de PIDs o códigos DTC).
+2. Una **reducción de al menos el 40%** en el tiempo de recepción vehicular y diagnóstico preliminar, gracias a los datos telemétricos precargados y al flujo digital de órdenes de trabajo desde la aplicación móvil.
+3. Una **tasa de retención mensual** de talleres suscritos **superior al 96%** (deserción mensual inferior al 4%).
+4. Una **disminución del 30%** en pérdidas económicas por discrepancias de inventario mediante la aplicación automatizada del método de valorización FIFO por lotes de compra.
 
 #### 1.2.2.2. Lean UX Assumptions
 
+**Business Assumptions**
 
+1. Creemos que existe una demanda insatisfecha en el mercado automotriz peruano por una plataforma SaaS integral que unifique la gestión operativa del taller con telemetría vehicular IoT en tiempo real.
+2. Creemos que el modelo de suscripción mensual escalonado (por taller y por volumen de vehículos conectados) será viable y sostenible para MYPEs del sector automotriz.
+3. Creemos que la estrategia de plataforma bilateral (B2B para talleres y B2C para conductores) generará efectos de red que incrementarán el valor del ecosistema a medida que crezcan ambos lados del mercado.
+4. Creemos que la filosofía *Hardware Agnostic* (BYOD) eliminará la principal barrera de adopción tecnológica al no exigir la compra de dispositivos propietarios costosos.
+5. Creemos que nuestra arquitectura Monolítica Modular bajo Domain-Driven Design nos permitirá evolucionar el producto de forma incremental sin incurrir en la complejidad operativa prematura de los microservicios.
+
+**Business Outcome Assumptions**
+
+1. Creemos que lograremos una tasa de retención mensual de talleres suscritos superior al 96% dentro de los primeros 12 meses de operación.
+2. Creemos que al menos el 35% de las citas de servicio agendadas en los talleres afiliados se originarán directamente a partir de alertas telemétricas predictivas automáticas.
+3. Creemos que reduciremos en al menos un 40% el tiempo de recepción vehicular y diagnóstico preliminar en los talleres que adopten la plataforma.
+4. Creemos que disminuiremos en un 30% las pérdidas económicas por discrepancias de inventario en talleres que utilicen el módulo de costeo FIFO automatizado.
+5. Creemos que el costo de adquisición de clientes (*Customer Acquisition Cost* - CAC) se reducirá progresivamente conforme los conductores satisfechos recomienden talleres afiliados dentro del ecosistema.
+
+**User Assumptions**
+
+1. Creemos que nuestro usuario principal del lado B2B es el dueño o administrador de un taller mecánico independiente de pequeña o mediana escala (MYPE), ubicado en Lima Metropolitana, con entre 2 y 15 empleados, que actualmente gestiona su operación de forma manual o con herramientas genéricas no especializadas.
+2. Creemos que nuestro usuario secundario del lado B2B es el técnico mecánico de campo, quien requiere una interfaz móvil simplificada y de uso rudo para registrar diagnósticos, evidencia fotográfica y avances de órdenes de trabajo directamente desde la bahía de servicio.
+3. Creemos que nuestro usuario principal del lado B2C es el conductor particular o administrador de flota liviana comercial que desea visibilidad en tiempo real sobre la salud mecánica de su vehículo y transparencia total sobre los servicios realizados en el taller.
+4. Creemos que ambos segmentos de usuarios poseen teléfonos inteligentes con conectividad de datos y están familiarizados con aplicaciones móviles de uso cotidiano, aunque no necesariamente con software especializado de gestión automotriz.
+
+**User Outcome and Benefit Assumptions**
+
+1. Creemos que los dueños de taller desean proteger sus márgenes de ganancia mediante un control automatizado de costos de repuestos (FIFO por lote de compra) y la eliminación de fugas de capital por costeo empírico.
+2. Creemos que los técnicos mecánicos desean reducir el tiempo y la incertidumbre del diagnóstico accediendo a datos telemétricos precargados del vehículo antes de su llegada física al taller.
+3. Creemos que los conductores desean evitar averías catastróficas e imprevistas recibiendo alertas predictivas oportunas basadas en la telemetría de su vehículo, y poder agendar citas de mantenimiento preventivo directamente desde su aplicación móvil.
+4. Creemos que los administradores de flotas desean trazabilidad operativa completa y reportes consolidados del estado de salud de todos sus vehículos para optimizar la planificación logística y reducir tiempos de inactividad.
+5. Creemos que ambos segmentos valoran la transparencia: los conductores quieren un historial de servicio verificable con evidencia fotográfica inmutable, y los talleres quieren que esa transparencia fortalezca la confianza y la fidelización del cliente.
+
+**Feature Assumptions**
+
+1. Creemos que un módulo de ingesta telemática en tiempo real (procesamiento de PIDs OBD-II y códigos DTC mediante series temporales) permitirá al taller diagnosticar vehículos de forma remota antes de su recepción física.
+2. Creemos que un sistema de alertas predictivas por notificaciones push, disparadas por desviaciones en los parámetros telemétricos, incentivará a los conductores a agendar citas de mantenimiento preventivo de forma proactiva.
+3. Creemos que un módulo de gestión de órdenes de trabajo digitales con registro fotográfico inmutable (*Direct-to-Cloud*) eliminará la vulnerabilidad probatoria y aumentará la confianza del cliente en el servicio recibido.
+4. Creemos que un sistema de costeo de inventario automatizado bajo el método FIFO por lote de compra protegerá los márgenes de ganancia del taller y reducirá las pérdidas por discrepancias de inventario.
+5. Creemos que un módulo de agendamiento inteligente de citas, alimentado por datos telemétricos y disponibilidad del taller, reducirá la fricción en la coordinación entre conductor y taller.
+6. Creemos que un mecanismo de registro de tiempos por técnico en cada orden de trabajo, complementado con validación de proximidad por geocerca al taller, optimizará el control de productividad operativa sin requerir un módulo de recursos humanos independiente. La expansión hacia un sistema integral de gestión de personal se considera una iteración de fase posterior.
+7. Creemos que la implementación de aplicaciones móviles especializadas por rol (*Atelier Workshop* y *Atelier Driver*) mejorará la experiencia de usuario al ofrecer flujos de trabajo específicos para cada segmento.
+8. Creemos que un módulo de cumplimiento tributario electrónico automatizado reducirá la carga administrativa del taller y asegurará la conformidad regulatoria con la normativa peruana vigente.
 
 #### 1.2.2.3. Lean UX Hypothesis Statements
 
+**Hypothesis Statement 1: Ingesta Telemática en Tiempo Real y Diagnóstico Remoto**
 
+**Creemos que lograremos** una reducción de al menos el 40% en el tiempo promedio de recepción vehicular y diagnóstico preliminar en el taller,  
+**si** los técnicos mecánicos  
+**obtienen** acceso anticipado y en tiempo real a los parámetros de salud vehicular (PIDs en series temporales) y códigos de falla (DTCs) antes del ingreso físico del automóvil,  
+**mediante** un módulo de ingesta telemática en la nube conectado a escáneres OBD-II estándar (*Hardware Agnostic*).
+
+**Hypothesis Statement 2: Sistema de Alertas Predictivas por Notificaciones Push**
+
+**Creemos que lograremos** que al menos el 35% de las citas de servicio agendadas en los talleres afiliados se originen directamente a partir de alertas automáticas,  
+**si** los conductores particulares y administradores de flotas livianas  
+**obtienen** avisos preventivos tempranos y comprensibles sobre desviaciones mecánicas inminentes para evitar averías graves y sobrecostos,  
+**mediante** un motor de reglas y notificaciones push automáticas disparadas por eventos telemétricos.
+
+**Hypothesis Statement 3: Órdenes de Trabajo Digitales con Registro Fotográfico Inmutable**
+
+**Creemos que lograremos** una tasa de retención mensual de talleres afiliados superior al 96% (deserción mensual inferior al 4%),  
+**si** los dueños de taller y los clientes conductores  
+**obtienen** máxima transparencia, trazabilidad probatoria y respaldo visual inmutable del estado del vehículo antes, durante y después de la reparación,  
+**mediante** un módulo digital de órdenes de trabajo con captura y carga directa de evidencia fotográfica a la nube (*Direct-to-Cloud*).
+
+**Hypothesis Statement 4: Control y Valorización de Inventario por Método FIFO**
+
+**Creemos que lograremos** que el 100% de los repuestos consumidos en las reparaciones se registren y descuenten digitalmente vinculados a su lote de compra específico antes de liquidar la orden de trabajo,  
+**si** los técnicos mecánicos y administradores de taller  
+**obtienen** un mecanismo simple de escaneo y asignación de ítems que elimine la necesidad de anotaciones manuales o cálculos empíricos de costos,  
+**mediante** un módulo de inventario automatizado que aplique estrictamente el método de valorización FIFO por lotes de compra.
+
+**Hypothesis Statement 5: Agendamiento Inteligente de Citas Basado en Telemetría**
+
+**Creemos que lograremos** elevar la tasa de ocupación efectiva de las bahías de trabajo al 85% y reducir los tiempos de espera no programados a menos de 15 minutos,  
+**si** los conductores y el personal de recepción del taller  
+**obtienen** un flujo ágil de reserva coordinado en función de la severidad del diagnóstico telemétrico y la disponibilidad horaria en tiempo real de los mecánicos,  
+**mediante** un módulo de agendamiento inteligente integrado bidireccionalmente entre la telemetría vehicular y el calendario del taller.
+
+**Hypothesis Statement 6: Registro de Tiempos por Técnico y Validación de Proximidad**
+
+**Creemos que lograremos** reducir la brecha entre el tiempo estimado y el tiempo real de mano de obra a menos de un 10% por orden de trabajo,  
+**si** los jefes de taller y técnicos mecánicos  
+**obtienen** un control cronometrado de inicio y fin por etapa operativa sin fricción manual y con validación de presencia efectiva en el taller,  
+**mediante** un mecanismo de registro de tiempos por técnico vinculado a la orden de trabajo y validado por geocerca perimetral.
+
+**Hypothesis Statement 7: Aplicaciones Móviles Especializadas por Rol (*Workshop* y *Driver*)**
+
+**Creemos que lograremos** que más del 80% de los técnicos activos y de los conductores registrados utilicen la aplicación móvil como su canal diario prioritario para la gestión y seguimiento vehicular,  
+**si** ambos perfiles  
+**obtienen** una experiencia de uso adaptada a su contexto real (interfaces de alto contraste y pocos toques para mecánicos en bahía; vistas claras de salud del auto y notificaciones directas para conductores),  
+**mediante** dos aplicaciones móviles nativas y especializadas por rol (*Atelier Workshop* y *Atelier Driver*).
+
+**Hypothesis Statement 8: Cumplimiento Tributario y Facturación Electrónica Integrada**
+
+**Creemos que lograremos** una reducción del 75% en el tiempo de liquidación y cierre administrativo de las órdenes de trabajo (emisión de comprobante en menos de 2 minutos tras la aprobación),  
+**si** los administradores de taller  
+**obtienen** la emisión inmediata de comprobantes electrónicos válidos ante SUNAT generados automáticamente a partir de la liquidación de mano de obra y repuestos,  
+**mediante** un módulo de facturación electrónica integrado que conecte directamente el cierre de la orden de trabajo con el servicio de comprobantes de pago digitales.
 
 #### 1.2.2.4. Lean UX Canvas
 
+![Matriz del Lean UX Canvas para el Ecosistema Atelier](../../assets/Lean%20UX.jpg){#fig:lean-ux-canvas}
 
+**Enlace al tablero interactivo:** [Ver en Miro](https://miro.com/welcomeonboard/ZEZJcWF2dElmbVAwcG1VV2JxUEc2RHpsSkxHL25uNE9RcFBVaTdxekxqNTlxK2xmczRXTDVXTzNvS2NDMXdKUkRjQmxNMDZhUmpvQlZ0cEllS21yMHZZMDFnbHRlL0pwSHhNR2l0WmhaL0hYaDJpVUtNT0VlRWZscEt1Y3plNU5BS2NFMDFkcUNFSnM0d3FEN050ekl3PT0hdjE=?share_link_id=553176034482)
 
 \newpage

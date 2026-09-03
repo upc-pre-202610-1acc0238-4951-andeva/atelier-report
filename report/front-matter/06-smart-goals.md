@@ -2,9 +2,9 @@
 
 **Granda Ibarra, Luis Daniel**
 
-- 
+- Obtener al menos dos certificaciones internacionales de nivel profesional en Ciencia de Datos y Arquitecturas Cloud en un plazo máximo de 2 años tras culminar la carrera, con el objetivo de consolidar mi especialización en el diseño de modelos predictivos y análisis avanzado de datos aplicados al sector financiero y bancario.
 
-- 
+- Fundar una startup tecnológica enfocada en el análisis de datos e inteligencia financiera, liderando el desarrollo de su primer producto algorítmico hasta lograr su validación comercial con al menos 3 entidades institucionales o 1,000 usuarios en un periodo de 3 años tras mi graduación, desempeñándome como Chief Data Officer (CDO) o CTO.
 
 **Huamani Estefanero, Joel**
 
