@@ -48,14 +48,26 @@ Esta capa maneja la seguridad, la arquitectura multi-tenant, y el onboarding de 
 |-------|----------|--------------|-------|------|---------|-------------|
 | `users` | `id` | `UUID` | PK | Sí | `uuid()`| ID de autenticación (dueños, mecánicos, clientes) |
 | `users` | `email` | `VARCHAR(150)`| - | Sí | - | Correo único de acceso |
-| `users` | `password_hash`| `VARCHAR(255)`| - | Sí | - | Contraseña encriptada (BCrypt) |
-| `users` | `fcm_token` | `VARCHAR(255)`| - | No | `null` | Firebase Token para recibir notificaciones Push |
+| `users` | `password_hash`| `VARCHAR(255)`| - | No | `null` | Contraseña encriptada (Null si usa Google) |
+| `users` | `auth_provider`| `VARCHAR(20)` | - | Sí | `'local'`| `'local'` o `'google'` (OAuth2 SSO) |
+| `users` | `google_id`  | `VARCHAR(255)`| - | No | `null` | Subject ID de Google Auth |
+| `users` | `fcm_token` | `VARCHAR(255)`| - | No | `null` | Firebase Token para notificaciones Push |
 | `profiles`| `user_id` | `UUID` | PK,FK | Sí | - | Relación 1:1 con `users` |
 | `profiles`| `first_name` | `VARCHAR(100)`| - | Sí | - | Nombres |
 | `profiles`| `last_name` | `VARCHAR(100)`| - | Sí | - | Apellidos |
 | `profiles`| `phone_number` | `VARCHAR(20)` | - | No | `null` | Teléfono de contacto |
 
-### 1.4 `tenant_memberships` & `invitations` (Contratos y Onboarding)
+### 1.4 `verification_tokens` (MFA, OTP & Password Reset)
+| Atributo | Tipo de Dato | Llave | Req. | Default | Descripción |
+|----------|--------------|-------|------|---------|-------------|
+| `id` | `UUID` | PK | Sí | `uuid()`| Identificador único del token |
+| `user_id`| `UUID` | FK | Sí | - | Referencia al usuario |
+| `token`  | `VARCHAR(255)`| - | Sí | - | OTP numérico (6 dígitos) o Hash alfanumérico |
+| `type`   | `VARCHAR(30)` | - | Sí | - | `'email_verification'`, `'password_reset'` |
+| `expires_at` | `TIMESTAMP` | - | Sí | - | Fecha de caducidad del token |
+| `is_used`| `BOOLEAN` | - | Sí | `false` | Se marca `true` al canjearse |
+
+### 1.5 `tenant_memberships` & `invitations` (Contratos y Onboarding)
 | Tabla | Atributo | Tipo de Dato | Llave | Req. | Default | Descripción |
 |-------|----------|--------------|-------|------|---------|-------------|
 | `tenant_memberships`| `id` | `UUID` | PK | Sí | `uuid()`| ID oficial del 'Empleado' (usado en MRO y HR) |
@@ -64,7 +76,7 @@ Esta capa maneja la seguridad, la arquitectura multi-tenant, y el onboarding de 
 | `tenant_memberships`| `status` | `VARCHAR(20)` | - | Sí | `'active'`| `active`, `inactive` |
 | `tenant_memberships`| `salary_type`| `VARCHAR(20)` | - | Sí | `'fixed'` | `fixed` (Mensual), `hourly` (Por horas) |
 | `tenant_memberships`| `base_salary`| `DECIMAL(10,2)`| - | Sí | `0.00` | Salario base pactado |
-| `invitations` | `id` | `UUID` | PK | Sí | `uuid()`| Invitación al correo vía SendGrid |
+| `invitations` | `id` | `UUID` | PK | Sí | `uuid()`| Invitación al correo vía Resend |
 | `invitations` | `tenant_id` | `UUID` | FK | Sí | - | Taller emisor |
 | `invitations` | `email` | `VARCHAR(150)`| - | Sí | - | Destinatario |
 | `invitations` | `token` | `VARCHAR(255)`| - | Sí | - | Token único de seguridad para el enlace web |
@@ -439,7 +451,7 @@ Conecta físicamente el escáner del taller al auto del cliente por un periodo d
 **Paquete Backend:** `com.atelier.shared`
 
 ### 8.6 `outbox_messages` (Transactional Outbox)
-Tabla base de la arquitectura para garantizar la Consistencia Eventual. Los eventos (ej. enviar factura a SUNAT, enviar correo SendGrid) se guardan aquí *antes* de salir a internet.
+Tabla base de la arquitectura para garantizar la Consistencia Eventual. Los eventos (ej. enviar factura a SUNAT, enviar correo por Resend) se guardan aquí *antes* de salir a internet.
 
 | Atributo | Tipo de Dato | Llave | Req. | Default | Descripción |
 |----------|--------------|-------|------|---------|-------------|
@@ -449,3 +461,19 @@ Tabla base de la arquitectura para garantizar la Consistencia Eventual. Los even
 | `payload` | `JSONB` | - | Sí | - | Los datos crudos a procesar (JSON) |
 | `status` | `VARCHAR(20)` | - | Sí | `'pending'`| `pending`, `processed`, `failed` |
 | `retry_count` | `INT` | - | Sí | `0` | Veces que el Worker (`@Scheduled`) re-intentó |
+
+## 9. Addendum: Modelo de Datos Local Móvil (Offline-First Sync Queue)
+Para soportar el modo offline en ambientes sin cobertura (49.1% de usuarios sin plan de datos constante o mecánicos en fosos), las aplicaciones de Atelier (Workshop y Driver) mantendrán bases de datos locales embebidas fundamentadas en **SQLite como motor relacional transaccional**: implementado mediante **Room Database** (Android Jetpack) en la versión de Kotlin por su validación en tiempo de compilación y reactividad nativa con Coroutines/Flow, y mediante **SQLite (`sqflite`)** en la versión multiplataforma de Flutter.
+
+Además de cachear catálogos (`services`, `inventory_items`) para lectura instantánea, la estructura vital para operar de forma desconectada será la cola de sincronización (Sync Queue) o "Transactional Outbox Móvil":
+
+### `pending_sync_events` (Cola de Sincronización Móvil)
+| Atributo | Tipo de Dato | Llave | Req. | Descripción |
+|----------|--------------|-------|------|-------------|
+| `id` | `UUID` | PK | Sí | Identificador local del evento |
+| `action_type`| `VARCHAR(100)`| - | Sí | Ej. `MARK_TASK_COMPLETED`, `UPLOAD_EVIDENCE` |
+| `payload` | `JSON` | - | Sí | Datos a enviar a la API cuando haya conexión (ej. `taskId`) |
+| `status` | `VARCHAR(20)` | - | Sí | `pending`, `syncing`, `failed` |
+| `created_at` | `TIMESTAMP` | - | Sí | Marca de tiempo en la que el usuario hizo la acción offline |
+
+*Esta tabla permite el diseño resiliente que procesará las actualizaciones diferidas cuando un Background Worker recupere la conexión a la red.*

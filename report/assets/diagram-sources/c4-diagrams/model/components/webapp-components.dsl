@@ -1,0 +1,11 @@
+// Componentes internos del contenedor Web Application (Angular 20 SPA)
+auth_guard_comp = component "Auth y Tenancy Guard" "Gestiona tokens JWT, interceptores de cabeceras seguras y control de acceso por roles." "Angular Guard, Interceptor"
+shell_comp = component "Multi-Tenant Shell" "Estructura base de navegación con barra lateral, encabezado y selector de sucursales." "Angular Component, Angular Material"
+dashboard_comp = component "Executive Dashboard Component" "Visualización de indicadores clave de rendimiento, rentabilidad y volumen de órdenes." "Angular Component, Charts"
+mro_console_comp = component "MRO Operations Console" "Tablero de control para supervisión de órdenes de trabajo, bahías y asignación de tareas." "Angular Component, Angular Material"
+inventory_comp_ui = component "Inventory y FIFO Manager" "Gestión del catálogo de repuestos, trazabilidad de lotes FIFO y compras a proveedores." "Angular Component, Angular Material"
+invoicing_comp_ui = component "Invoicing y SUNAT Billing" "Emisión de comprobantes tributarios electrónicos, consulta de estados y descarga de documentos." "Angular Component, Angular Material"
+subscription_comp_ui = component "SaaS Subscription y Checkout" "Administración del plan del taller e integración segura de tokenización de pagos con Stripe." "Angular Component, Stripe.js"
+hr_comp_ui = component "HR y Staff Management" "Administración de turnos laborales, control de nóminas y visualización de asistencias por GPS." "Angular Component, Angular Material"
+customers_comp_ui = component "Customer y Appointment Manager" "Directorio de clientes, flotas vehiculares y calendario de citas para recepción." "Angular Component, Angular Material"
+api_client_comp = component "State Store y API Client" "Capa centralizada de comunicación HTTP RESTful, reactividad con Signals y caché local." "Angular Service, Signals, RxJS"

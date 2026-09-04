@@ -29,8 +29,9 @@ El corazón de la innovación de Atelier, que nos permite ofrecer este mantenimi
 
 El ecosistema se divide estratégicamente en dos fases para conectar a todos los actores del proceso:
 
-* **Atelier Workshop (Fase 1):** Una completa Aplicación Web y Móvil orientada al segmento B2B (dueños y empleados del taller). Con una sólida arquitectura multi-tenant y un estricto control de acceso basado en roles (RBAC), garantiza que cada miembro del equipo —desde el dueño con control global, hasta el administrador de sucursal o el mecánico en la zona de trabajo— disponga exactamente de las herramientas e información que necesita para operar con máxima eficiencia.
-* **Atelier Driver (Fase 2):** Una Aplicación Móvil orientada a los clientes finales, que pueden ser conductores individuales o empresas con flotas vehiculares. Funciona como portal de interacción directa: los usuarios con el servicio OBD2 contratado reciben diagnósticos y alertas preventivas en tiempo real. Para los vehículos sin telemetría activa, la aplicación sigue siendo un canal indispensable para agendar citas, consultar presupuestos y revisar el historial de reparaciones y mantenimientos, integrándose orgánicamente con el ERP del taller.
+* **Atelier Workshop (Fase 1):** Una completa Aplicación Web y Móvil orientada al segmento B2B. En esta primera fase, el producto se dirige exclusivamente a dos segmentos objetivo: **Segmento 1: Personal de Gestión y Propietarios del Taller** (dueños con control global y administradores de sucursal) y **Segmento 2: Personal Operativo del Taller** (mecánicos, recepcionistas y asesores de servicio en la zona de trabajo). Con una sólida arquitectura multi-tenant y un estricto control de acceso basado en roles (RBAC), garantiza que cada miembro del equipo disponga exactamente de las herramientas e información que necesita para operar con máxima eficiencia.
+* **Atelier Driver (Fase 2):** Una Aplicación Móvil orientada a los clientes finales (**Segmento 3: Propietarios de Vehículos (Particulares y Flotas)**). Funciona como portal de interacción directa para recibir diagnósticos OBD2 en tiempo real, agendar citas y revisar el historial de mantenimientos. 
+  * **NOTA CRÍTICA PARA DOCUMENTACIÓN Y DESARROLLO (Regla para IA):** El "Segmento 3: Propietarios de Vehículos (Particulares y Flotas)" y la app "Atelier Driver" son una fortaleza clave del producto frente a la competencia y pueden mencionarse como característica del ecosistema. SIN EMBARGO, para los entregables del reporte académico actual, **este tercer segmento NO SE CONTEMPLA en la documentación de negocio, UX, ni historias de usuario** (es decir, no se deben generar User Stories, entrevistas ni diseños para este segmento). **Las ÚNICAS excepciones son las secciones 2.5.3 (Software Architecture Context/Container/Component Level Diagrams y sus derivados) y 2.6 (Tactical-Level Domain-Driven Design y sus derivados)**, donde este tercer segmento SÍ DEBE INCLUIRSE en los diagramas y código (ej. Structurizr C4, PlantUML, Context Maps) para prever la escalabilidad del sistema y mostrar el panorama completo del ecosistema.
 
 ## Features Principales del Ecosistema
 
@@ -80,18 +81,27 @@ Para construir este ecosistema manteniendo una alta resiliencia y viabilidad eco
   * **Implementación:** Al iniciar sesión, las aplicaciones (Flutter/Kotlin) generarán un `fcm_token` único por dispositivo. Cuando el motor de telemetría alojado en Spring Boot detecte un fallo predictivo, utilizará el *Firebase Admin SDK* (gratuito) para "empujar" (Push) la alerta de manera simultánea e instantánea al celular del conductor y al dashboard del taller.
 * **Firebase Cloud Storage (Almacenamiento de Imágenes y Evidencia):**
   * **Implementación:** Resuelve la necesidad de guardar evidencia visual del vehículo y las reparaciones. Para evitar saturar el servidor backend en Render con el procesamiento de archivos pesados, se empleará el patrón *Direct-to-Cloud*. La aplicación móvil subirá la imagen directamente a los buckets de Firebase mediante el SDK nativo. Firebase retornará una URL segura, y la app enviará únicamente esta URL en formato texto a la API de Spring Boot para ser almacenada en la base de datos relacional.
-* **SendGrid / Resend (Correos Transaccionales y Onboarding):**
-  * **Implementación:** Elemento central para el registro de empleados mediante invitación. Para mantener la alta concurrencia del backend, el envío de correos HTML se ejecutará de forma no bloqueante utilizando eventos asíncronos (`@Async`) y `WebClient` en Java, evitando pausar la respuesta HTTP del cliente.
+* **Resend (Correos Transaccionales por API HTTPS):**
+  Al integrarnos mediante la API de Resend (Puerto 443 HTTPS), evitamos los bloqueos de puertos SMTP tradicionales impuestos por las capas gratuitas de servicios en la nube (ej. Render). Resend se utiliza como motor de comunicación omnicanal para los siguientes casos de uso estratégicos:
+  1. **Onboarding B2B:** Envío asíncrono de invitaciones al personal operativo (mecánicos, asesores) para unirse al *tenant* del taller.
+  2. **Verificación de Identidad (MFA/OTP):** Envío de códigos numéricos de 6 dígitos para verificar cuentas nuevas o confirmar operaciones sensibles.
+  3. **Recuperación de Credenciales:** Flujo seguro de *Password Reset* mediante tokens de un solo uso cuando un usuario olvida su contraseña.
+  4. **Recordatorios de Citas y Presupuestos (B2C):** Notificaciones al correo del conductor confirmando que su reserva fue aceptada o que tiene un presupuesto MRO pendiente de aprobación.
+  5. **Comprobantes Electrónicos (Billing):** Envío de la boleta o factura (PDF/XML) generada por Nubefact directamente al correo del cliente post-reparación.
+  * **Implementación técnica:** Para mantener la alta concurrencia del backend, el envío de correos y la comunicación con la API de Resend se ejecutará de forma no bloqueante utilizando eventos asíncronos (`@Async`) y `WebClient` en Java, evitando pausar la respuesta HTTP del cliente.
 * **Google Maps Platform (Control de Personal y Geocercas):**
   * **Implementación:** El frontend utilizará *Google Places API* para normalizar direcciones. Para la validación de asistencia (marcación de entrada/salida), el móvil enviará sus coordenadas GPS al backend. El servidor de Spring Boot utilizará la *Fórmula matemática del Haversine* para calcular la distancia métrica exacta. Si el empleado está fuera del radio de la sucursal (ej. 50m), el sistema rechazará su asistencia.
 
-### Ecosistema Móvil y Viabilidad del MVP
+### Ecosistema Móvil y Viabilidad del MVP (Estrategia Offline-First)
 Para las aplicaciones "Workshop" y "Driver", se aplicará un enfoque utilizando **Flutter** y **Kotlin**. 
+
+Basado en hallazgos donde el **49.1% de usuarios móviles accede a internet sin un plan de datos activo constante** (dependiendo de redes Wi-Fi) y considerando los escenarios operativos del taller (fosos de inspección sin cobertura), el ecosistema móvil debe regirse bajo un patrón **Offline-First obligatorio**.
 
 Durante la fase de validación (MVP/Proyecto Universitario), Atelier asegura el cumplimiento estricto de interacciones complejas exigidas a nivel académico:
 1. **Recursos de Hardware Interno:** Las aplicaciones interactúan con el hardware nativo (Bluetooth/BLE) para leer la telemetría del vehículo actuando como *Gateway*. En entornos de prueba académica (sin vehículos físicos), el sistema leerá los datos desde simuladores de hardware OBD2. Adicionalmente, se extraen las coordenadas GPS del dispositivo móvil para la validación algorítmica de geocercas.
-2. **Almacenamiento Local:** Uso de bases de datos locales (ej. SQLite / Room) para mantener historiales en caché y permitir el funcionamiento offline de los mecánicos dentro de zonas de baja cobertura en el taller.
-3. **Feature de Aprendizaje Autónomo:** El equipo implementará de forma autodidacta librerías avanzadas no provistas en el temario base (tales como el SDK nativo de *Stripe* para procesamiento de transacciones, o la comunicación Bluetooth serial de bajo nivel para la ingesta IoT).
+2. **Almacenamiento Local Robusto (Caché Offline-First con SQLite):** Uso de base de datos relacional local basada en el motor estándar **SQLite**: implementado mediante **Room Database** (Android Jetpack) en la versión nativa de Kotlin (aprovechando la verificación de consultas en tiempo de compilación, cero código boilerplate y flujos reactivos con Coroutines/Flow) y mediante **SQLite (`sqflite`)** en la versión multiplataforma de Flutter. Ambas tecnologías mantienen catálogos, historial de reparaciones y órdenes en caché local. La UI debe leer siempre de esta caché y no depender de llamadas directas a red, garantizando funcionamiento ininterrumpido en zonas de baja cobertura.
+3. **Patrón de Cola de Sincronización (Sync Queue):** Acciones complejas offline (marcar tareas como terminadas, adjuntar fotos de evidencia de reparaciones, o encolar reservaciones de citas) se guardan en el celular en una tabla local de eventos pendientes. Un *Background Worker* se encarga de enviarlas a la API mediante subida diferida (Deferred Uploads) cuando detecta conexión de red, sin bloquear al usuario.
+4. **Feature de Aprendizaje Autónomo:** El equipo implementará de forma autodidacta librerías avanzadas no provistas en el temario base (tales como el SDK nativo de *Stripe* para procesamiento de transacciones, o la comunicación Bluetooth serial de bajo nivel para la ingesta IoT).
 
 ## Arquitectura de Software y Patrones Tácticos
 
@@ -125,7 +135,7 @@ El sistema se divide orgánicamente en 8 subdominios delimitados, cada uno con u
 
 1. **Identity and Access Management (IAM) & Tenancy Context:**
    * **Propósito y Por qué se creó:** Aislar la enorme complejidad de la seguridad, autenticación y multitenencia. Se creó para garantizar de forma monolítica que la data de un taller jamás se cruce con la de otro, y para cimentar la visión a futuro de una "Red Profesional de Mecánicos" al darles una identidad independiente.
-   * **Descripción:** Gestiona la partición Multi-Tenant, el control de acceso basado en roles (RBAC - Dueño, Administrador, Mecánico) y el innovador proceso de Onboarding del personal mediante invitaciones asíncronas por correo (SendGrid).
+   * **Descripción:** Gestiona la partición Multi-Tenant, el control de acceso basado en roles (RBAC - Dueño, Administrador, Mecánico) y el innovador proceso de Onboarding del personal mediante invitaciones asíncronas por correo (Resend).
 
 2. **Customer and Fleet Management Context:**
    * **Propósito y Por qué se creó:** Separar la gestión comercial y de relaciones públicas (B2C/B2B2C) de la dura operatividad mecánica del taller, centralizando la interacción con el cliente final.

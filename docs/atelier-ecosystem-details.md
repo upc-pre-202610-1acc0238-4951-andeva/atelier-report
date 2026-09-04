@@ -24,20 +24,23 @@ Es imperativo aclarar que **Andeva NO vende hardware**.
 Similar a plataformas de ecosistemas bilaterales (como Uber o Rappi), Atelier se divide en dos grandes aplicaciones para conectar a los talleres con sus clientes.
 
 ### Fase 1: Atelier Workshop
-Es el pilar operativo del ecosistema, diseñado específicamente para los **dueños de talleres mecánicos y sus empleados**.
+Es el pilar operativo del ecosistema, diseñado específicamente para los **dos segmentos B2B: Personal de Gestión** (dueños, administradores) y **Personal Operativo** (mecánicos, recepcionistas, asesores de servicio).
 
 * **Aplicación Web:** Un portal de gestión integral donde converge toda la administración del taller.
-  * **RBAC y Multi-tenant:** Está diseñado con una arquitectura segura basada en el control de acceso por roles (RBAC). Las vistas y permisos están estrictamente segmentados: un mecánico no tiene acceso al módulo de *billing* o control de personal; un administrador de sucursal tiene visión y control solo sobre el local asignado; y el dueño de la franquicia o taller posee el control maestro y la vista de todas sus sucursales.
-* **Aplicación Móvil Cross-Platform:** Una versión optimizada de la plataforma web diseñada específicamente para dispositivos móviles y tablets. Fue ideada para brindar comodidad operativa a trabajadores dinámicos, como los mecánicos que están en constante movimiento alrededor de los vehículos.
+  * **RBAC y Multi-tenant:** Está diseñado con una arquitectura segura basada en el control de acceso por roles (RBAC). Las vistas y permisos están estrictamente segmentados: el personal operativo (ej. un mecánico) no tiene acceso al módulo de *billing* o control de personal; un administrador de sucursal (gestión) tiene visión y control solo sobre el local asignado; y el dueño de la franquicia o taller posee el control maestro y la vista de todas sus sucursales.
+* **Aplicación Móvil Cross-Platform:** Una versión optimizada del ecosistema diseñada para smartphones y tablets que unifica a ambos segmentos mediante RBAC. Permite al Personal de Gestión supervisar el patio, aprobar presupuestos y revisar métricas de rentabilidad desde cualquier lugar, mientras brinda al Personal Operativo la movilidad necesaria para interactuar con escáneres OBD2 por Bluetooth y registrar tareas de mantenimiento.
+  * **Soporte Offline-First:** Las tareas asignadas y la recolección de evidencia fotográfica están diseñadas para funcionar sin conexión en las fosas o áreas de baja cobertura del taller, apoyándose en bases de datos relacionales locales sobre **SQLite** (implementadas mediante **Room Database** en la app nativa de Android/Kotlin y mediante **`sqflite`** en la versión de Flutter), que se sincronizan con la nube cuando el dispositivo se re-conecta a la red.
 
 ### Fase 2: Atelier Driver
-Es la aplicación orientada a los **clientes del taller** (que pueden ser personas particulares con un vehículo o empresas con una flota de vehículos).
+Es la aplicación orientada al **Segmento 3: Propietarios de Vehículos (Particulares y Flotas)** (es decir, personas particulares con un vehículo o empresas con una flota de vehículos).
+* **NOTA PARA DOCUMENTACIÓN (Regla AI):** Al igual que se especifica en la documentación principal, este tercer segmento de clientes finales pertenece a la Fase 2 y **NO SE CONTEMPLA** en la documentación de negocio del proyecto (historias de usuario, diseño UX, problem statement, etc.). **Sin embargo, sí se contempla y se modela explícitamente** en las secciones de Arquitectura de Software (2.5.3) y Tactical-Level Domain-Driven Design (2.6) para asegurar que el backend y los modelos escalen correctamente.
 
 * **Aplicación Móvil Cross-Platform:** El canal de comunicación y control del cliente.
 * **Para vehículos CON el servicio OBD2 activo:**
   * El conductor puede visualizar el estado de salud de su carro en tiempo real gracias a los datos enviados por el OBD2.
   * Recibe las alertas preventivas generadas por el sistema.
   * Si el OBD2 es Bluetooth/WiFi, la app de Atelier Driver permanece en segundo plano funcionando como *gateway* hacia el servidor.
+  * **Telemetría Offline (Batching):** Entendiendo que el 49.1% de usuarios carece de datos móviles constantes, la app en modo offline lee los datos Bluetooth y los guarda localmente. Al detectar Wi-Fi, los empaqueta y los dispara en bloque hacia los servidores predictivos.
   * Capacidad de agendar citas en el taller de manera automatizada.
 * **Para vehículos SIN el servicio OBD2 activo (o no vinculados):**
   * Un conductor puede registrar cualquier vehículo, incluso si no desea pagar por el servicio de OBD2 y las alertas preventivas.

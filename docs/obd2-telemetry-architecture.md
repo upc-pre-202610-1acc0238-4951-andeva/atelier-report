@@ -27,6 +27,7 @@ En este modelo, el dispositivo no tiene acceso directo a internet, sino que se c
 * **Ventajas:**
   * **Hardware económico:** Los scanners Bluetooth/WiFi son considerablemente más baratos.
   * **Sin pago de datos M2M:** Al aprovechar el internet del teléfono del conductor, el taller evita el costo mensual de la línea celular.
+  * **Resiliencia (Offline-First Batching con SQLite):** Si el dispositivo móvil carece de plan de datos activo o transita por zonas sin cobertura, la app resguarda la telemetría en una base de datos local relacional **SQLite** (gestionada mediante **Room** en Android/Kotlin y **`sqflite`** en Flutter) y efectúa una sincronización masiva en bloque (*Batching*) hacia la API de Atelier / TimescaleDB tan pronto recupera la conexión a internet, previniendo la pérdida de métricas y salvaguardando la integridad del historial analítico.
 * **Consideraciones:**
   * Requiere que el teléfono del conductor esté en el auto, encendido, con Bluetooth activo, y que la app de Atelier tenga permisos del sistema operativo para ejecutarse en segundo plano sin ser bloqueada por el ahorro de batería.
   * **Caso de Uso Especial: Flotas de Empresas.** Cuando el cliente del taller es una empresa con una flota vehicular y eligen OBD2 BLE/WiFi, el dueño de la flota no es quien conduce los vehículos. En este escenario, la app Atelier Driver incorpora perfiles de "Conductor de Flota". El empleado que maneja el vehículo se loguea en la app con este rol, y su teléfono funciona única y exclusivamente como el *gateway* para transmitir los datos de ese vehículo durante su turno. El dueño de la empresa, desde su cuenta principal (ya sea web o en su propia app), puede visualizar de manera centralizada la telemetría, alertas y ubicación de toda su flota, recibiendo los datos sin estar presente en cada vehículo.
@@ -36,3 +37,12 @@ En este modelo, el dispositivo no tiene acceso directo a internet, sino que se c
 El motor de diagnóstico de Atelier reside en el servidor en la nube. Independientemente de si los datos viajaron vía SIM o vía Gateway (App), una vez que llegan a nuestra infraestructura, se analizan constantemente. 
 
 Si el sistema detecta una desviación grave en los datos en tiempo real (PIDs) o si la ECU del auto reporta un código de error (DTC), Atelier genera una alerta automática. Esta alerta es enviada **simultáneamente** al tablero de administración del taller (Atelier Workshop) y al teléfono del cliente (Atelier Driver), garantizando transparencia inmediata y permitiendo que cualquiera de las dos partes inicie el agendamiento de la reparación preventiva.
+
+---
+
+## 3. Implementación de Demostración y Prueba de Concepto (Laboratorio)
+
+Tal como se establece en `docs/atelier-architecture-guide.md` y en el Diagrama de Despliegue del reporte de arquitectura (Sección 2.5.3.4), mientras que el diseño arquitectónico objetivo soporta dongles comerciales OBD-II (ELM327 BLE y rastreadores telemáticos 4G LTE Cat-M1 / NB-IoT), la validación académica en aula y laboratorio prescinde de vehículos físicos y hardware industrial costoso mediante:
+1. **Emulador de Hardware Comercial con SIM (Tipo A):** Prototipo embebido basado en microcontrolador ESP32 con firmware en C/C++ (FreeRTOS) y módulo celular SIM800L, que emite tramas JSON telemétricas directamente al endpoint `/api/v1/telemetry`.
+2. **Simulador de Señales ECU / PIDs (Tipo B):** Generador de tramas y comandos AT estándar ELM327 (RPM `010C`, velocidad `010D`, temperatura de refrigerante `0105`, DTCs) transmitidos por Bluetooth hacia las aplicaciones móviles de Atelier.
+Esto comprueba que la capa de ingestión y analítica en la nube es 100% independiente del fabricante del hardware telemático.
