@@ -217,9 +217,7 @@ El desarrollo de este ecosistema se encuentra delimitado por restricciones técn
 
 #### 1.2.2.4. Lean UX Canvas
 
-![Matriz del Lean UX Canvas para el Ecosistema Atelier Workshop](../../assets/lean-ux/Lean-ux-cnava.jpg){#fig:lean-ux-canvas}
-
-*Nota.* Elaboración propia.
+![Matriz del Lean UX Canvas para el Ecosistema Atelier Workshop](../../assets/lean-ux/Lean-ux-cnava.jpg)
 
 *Enlace al tablero interactivo:* [Ver en Miro](https://miro.com/welcomeonboard/ZEZJcWF2dElmbVAwcG1VV2JxUEc2RHpsSkxHL25uNE9RcFBVaTdxekxqNTlxK2xmczRXTDVXTzNvS2NDMXdKUkRjQmxNMDZhUmpvQlZ0cEllS21yMHZZMDFnbHRlL0pwSHhNR2l0WmhaL0ZNNytYQzhyb0dIWkpQaFN5WkNaMkNzVXVvMm53MW9OWFg5bkJoVXZxdFhRPT0hdjE=?share_link_id=454241249260)
 
