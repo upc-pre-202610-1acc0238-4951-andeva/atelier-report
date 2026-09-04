@@ -97,13 +97,13 @@ El desarrollo de este ecosistema se encuentra delimitado por restricciones técn
 
 #### 1.2.2.1. Lean UX Problem Statements
 
-**El estado actual de** la industria del mantenimiento, reparación y operaciones automotrices (MRO) **se caracteriza principalmente por** un modelo puramente reactivo de *"reparar tras la avería"*, en el que dueños de talleres mecánicos tradicionales, técnicos y conductores de vehículos enfrentan diagnósticos manuales lentos y propensos a errores, descontrol de inventario de repuestos sin métodos de costeo estandarizados, ausencia total de trazabilidad operativa en las reparaciones y costos correctivos que superan entre un 300% y un 400% el valor de una intervención preventiva oportuna.
+El estado actual de la industria del mantenimiento, reparación y operaciones automotrices se caracteriza principalmente por un modelo puramente reactivo de *"reparar tras la avería"*, en el que dueños de talleres mecánicos tradicionales, técnicos y conductores de vehículos enfrentan diagnósticos manuales lentos y propensos a errores, descontrol de inventario de repuestos sin métodos de costeo estandarizados, ausencia total de trazabilidad operativa en las reparaciones y costos correctivos que superan entre un 300% y un 400% el valor de una intervención preventiva oportuna.
 
-**Lo que los productos y servicios existentes no logran abordar es** la ausencia de un ecosistema accesible, unificado y nativo en la nube que integre telemetría vehicular IoT en tiempo real sin imponer la adquisición de hardware propietario costoso con una plataforma de gestión integral de taller que aplique costeo de inventario estricto por lotes (FIFO), evidencia fotográfica digital inmutable, control de asistencia laboral por geocercas y cumplimiento tributario electrónico automatizado.
+Lo que los productos y servicios existentes no logran abordar es la ausencia de un ecosistema accesible, unificado y nativo en la nube que integre telemetría vehicular IoT en tiempo real sin imponer la adquisición de hardware propietario costoso con una plataforma de gestión integral de taller que aplique costeo de inventario estricto por lotes (FIFO), evidencia fotográfica digital inmutable, control de asistencia laboral por geocercas y cumplimiento tributario electrónico automatizado.
 
-**Nuestro producto abordará esta brecha mediante** **Atelier**, una plataforma SaaS bilateral y agnóstica en hardware, diseñada bajo Domain-Driven Design (DDD). Atelier conecta vehículos a través de escáneres OBD-II estándar del mercado (con SIM celular o vía Bluetooth usando el smartphone del conductor como *gateway*) para ingestar telemetría en series temporales y disparar alertas predictivas por notificaciones push. Simultáneamente, provee aplicaciones web y móviles especializadas por rol (*Atelier Workshop* para el taller y *Atelier Driver* para el conductor) que digitalizan el ciclo completo de órdenes de trabajo, automatizan el agendamiento de citas, protegen los márgenes de ganancia y entregan transparencia total al cliente final sobre el historial de su vehículo.
+Nuestro producto abordará esta brecha mediante **Atelier**, una plataforma SaaS bilateral y agnóstica en hardware, diseñada bajo Domain-Driven Design (DDD). Atelier conecta vehículos a través de escáneres OBD-II estándar del mercado (con SIM celular o vía Bluetooth usando el smartphone del conductor como *gateway*) para ingestar telemetría en series temporales y disparar alertas predictivas por notificaciones push. Simultáneamente, provee aplicaciones web y móviles especializadas por rol (*Atelier Workshop* para el taller y *Atelier Driver* para el conductor) que digitalizan el ciclo completo de órdenes de trabajo, automatizan el agendamiento de citas, protegen los márgenes de ganancia y entregan transparencia total al cliente final sobre el historial de su vehículo.
 
-**Nuestro enfoque inicial estará en** talleres automotrices independientes de pequeña y mediana escala (MYPEs), administradores de flotas livianas comerciales y conductores particulares de Lima Metropolitana.
+Nuestro enfoque inicial estará en talleres automotrices independientes de pequeña y mediana escala (MYPEs), administradores de flotas livianas comerciales y conductores particulares de Lima Metropolitana.
 
 **¿Cómo podríamos** diseñar una plataforma que transforme la relación entre talleres y conductores, migrándola de un modelo correctivo y opaco hacia un ecosistema preventivo, transparente y basado en datos telemétricos en tiempo real, sin exigir inversiones prohibitivas en hardware propietario?
 
@@ -218,8 +218,10 @@ El desarrollo de este ecosistema se encuentra delimitado por restricciones técn
 
 #### 1.2.2.4. Lean UX Canvas
 
-![Matriz del Lean UX Canvas para el Ecosistema Atelier](../../assets/Lean%20UX.jpg){#fig:lean-ux-canvas}
+![Matriz del Lean UX Canvas para el Ecosistema Atelier](assets/lean-ux/lean-ux-canvas.jpg){#fig:lean-ux-canvas}
 
-**Enlace al tablero interactivo:** [Ver en Miro](https://miro.com/welcomeonboard/ZEZJcWF2dElmbVAwcG1VV2JxUEc2RHpsSkxHL25uNE9RcFBVaTdxekxqNTlxK2xmczRXTDVXTzNvS2NDMXdKUkRjQmxNMDZhUmpvQlZ0cEllS21yMHZZMDFnbHRlL0pwSHhNR2l0WmhaL0hYaDJpVUtNT0VlRWZscEt1Y3plNU5BS2NFMDFkcUNFSnM0d3FEN050ekl3PT0hdjE=?share_link_id=553176034482)
+*Nota.* Elaboración propia.
+
+*Enlace al tablero interactivo:* [Ver en Miro](https://miro.com/welcomeonboard/ZEZJcWF2dElmbVAwcG1VV2JxUEc2RHpsSkxHL25uNE9RcFBVaTdxekxqNTlxK2xmczRXTDVXTzNvS2NDMXdKUkRjQmxNMDZhUmpvQlZ0cEllS21yMHZZMDFnbHRlL0pwSHhNR2l0WmhaL0hYaDJpVUtNT0VlRWZscEt1Y3plNU5BS2NFMDFkcUNFSnM0d3FEN050ekl3PT0hdjE=?share_link_id=553176034482)
 
 \newpage

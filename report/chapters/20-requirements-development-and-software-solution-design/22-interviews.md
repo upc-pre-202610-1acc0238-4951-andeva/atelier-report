@@ -6,7 +6,7 @@ Para que Atelier pase de ser un concepto tecnológico a una plataforma útil en 
 
 Con el propósito de obtener hallazgos comparables y estructurados, se desarrollaron guías de entrevista ajustadas al perfil de cada segmento objetivo. Más allá de recabar variables demográficas y de perfil digital para la elaboración de los arquetipos de usuario, estas herramientas buscan profundizar en los puntos de dolor operativos, los hábitos de diagnóstico mediante puerto OBD2 y la disposición a adoptar alertas preventivas en la nube. A continuación, se presentan los cuestionarios diseñados para el personal de propietarios y para el personal operativo del taller:
 
-#### Segmento 1: Personal de Gestión y Propietarios
+#### Segmento 1: Personal de Gestión y Propietarios del Taller
 1.⁠ ⁠Perfil y Demografía
 
   - ¿Cuál es su edad, estado civil y en qué distrito reside?
@@ -37,21 +37,21 @@ Con el propósito de obtener hallazgos comparables y estructurados, se desarroll
   - ¿Actualmente atiende o ha intentado atender flotas corporativas? ¿Cuáles han sido las exigencias técnicas o de reporte que le han impedido cerrar esos contratos?
   - ¿Ha pagado anteriormente por algún software de gestión o diagnóstico? Si es así, ¿cuánto invirtió y por qué razones decidió mantenerlo o cancelarlo?
 
-#### Segmento 2: Personal Operativo (Técnicos y Mecánicos)
+#### Segmento 2: Personal Operativo del Taller
 
-1.⁠ ⁠Perfil y Demografía (Respuestas rápidas para User Persona)
+1.⁠ ⁠Perfil y Demografía
 
   - ¿Cuál es su edad, estado civil y distrito de residencia?
   - ¿Qué nivel de estudios tiene y cuál es su cargo técnico oficial aquí?
   - ¿Cómo describiría su personalidad cuando hay mucha carga de trabajo?
   - ¿En qué especialidad técnica o herramienta se considera un experto?
 
-2.⁠ ⁠Rutina y Entorno (Para As-Is Journey Map y Empathy Map)
+2.⁠ ⁠Rutina y Entorno
 
   - Describa brevemente: ¿cuál es el proceso exacto desde que le asignan un auto hasta que lo entrega reparado?
   - En su entorno de trabajo, ¿qué problemas o quejas escucha frecuentemente de sus compañeros?
 
-3.⁠ ⁠Objetivos y Frustraciones (Para Pains & Gains)
+3.⁠ ⁠Objetivos y Frustraciones
 
   - ¿Cuál es la tarea que más le frustra o le quita tiempo en el día?
   - ¿Qué meta profesional, de aprendizaje o salarial le gustaría alcanzar pronto?
