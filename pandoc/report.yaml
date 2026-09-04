@@ -23,6 +23,7 @@ variables:
   graphics: true
   multirow: true
   disable-header-and-footer: true
+  block-headings: true
   geometry:
     - margin=1in
   linestretch: 1.5
@@ -56,6 +57,18 @@ variables:
       % Quitar título automático de índice
       \makeatletter
       \renewcommand{\tableofcontents}{\@starttoc{toc}}
+      \makeatother
+    - |
+      % Forzar a los títulos de nivel 4 (\paragraph) y nivel 5 (\subparagraph) a tener salto de línea independiente
+      \makeatletter
+      \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+        {-2.5ex\@plus -1ex \@minus -.25ex}%
+        {1.25ex \@plus .2ex}%
+        {\normalfont\normalsize\bfseries}}
+      \renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+        {-2.0ex\@plus -1ex \@minus -.25ex}%
+        {1.0ex \@plus .2ex}%
+        {\normalfont\normalsize\bfseries}}
       \makeatother
     - |
       \usepackage{tabularx}

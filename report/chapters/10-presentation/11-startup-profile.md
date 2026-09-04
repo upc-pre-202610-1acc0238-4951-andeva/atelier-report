@@ -18,7 +18,7 @@ Diseñar y desarrollar soluciones de software innovadoras que empoderen a las or
 
 Ser el equipo de ingeniería de software líder y referente tecnológico a nivel internacional, reconocido por nuestra capacidad de innovar y dar vida a productos digitales excepcionales. Aspiramos a construir ecosistemas tecnológicos que definan los estándares del mañana, manteniendo siempre nuestro compromiso inquebrantable con la excelencia y el orgullo por nuestra identidad cultural.
 
-Nuestro principal producto, **Atelier**, es un ecosistema de software diseñado para transformar radicalmente el modelo operativo tradicional de los talleres automotrices, evolucionándolo de un enfoque reactivo a uno proactivo, preventivo e inteligente. Más allá de modernizar la gestión diaria, Atelier Workshop funciona como un completo sistema ERP y MRO que otorga al taller control total sobre sus ámbitos administrativos (personal, inventario, citas, órdenes de trabajo) y económicos (cobranza y facturación), logrando fidelizar clientes.
+Nuestro principal producto, **Atelier**, es un ecosistema de software diseñado para transformar radicalmente el modelo operativo tradicional de los talleres automotrices, evolucionándolo de un enfoque reactivo a uno proactivo, preventivo e inteligente. Más allá de modernizar la gestión diaria, Atelier Workshop funciona como un completo sistema ERP y MRO que otorga al taller control total sobre sus ámbitos administrativos y económicos, logrando fidelizar clientes.
 
 **¿Qué es y cómo funciona Atelier?**
 
