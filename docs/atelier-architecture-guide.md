@@ -36,12 +36,14 @@ La aplicación unificará a los dos segmentos objetivo utilizando Control de Acc
 ### A. Implementación en Flutter (Multiplataforma)
 
 - **Alcance:** iOS, Android, y opcionalmente Web (perfecto para que el Manager vea todo en su computadora).
+- **Persistencia Local (Offline-First):** Base de datos relacional embebida **SQLite** mediante el plugin oficial `sqflite`, gestionando tablas locales para catálogos y la cola `pending_sync_events`.
 - **Módulo Bluetooth (Recurso Interno):** Se usarán paquetes como `flutter_bluetooth_serial` o `flutter_blue_plus`. Para efectos de demostración académica (sin un auto real en el salón), la aplicación se conectará a un "simulador OBD2" (que puede ser un script en una laptop o un escáner ELM327 conectado a un simulador de ECU) enviando PIDs falsos.
 - **Procesamiento OBD2:** El código enviará PIDs estándar en hexadecimal (ej. `010C` para RPM) al dispositivo, parseará la respuesta y la enviará al backend Java como JSON.
 
 ### B. Implementación en Kotlin (Android Nativo)
 
 - **Alcance:** Android (Ideal para las tablets de trabajo rudo dentro de los talleres).
+- **Persistencia Local (Offline-First):** **Room Database** (Android Jetpack) como ORM reactivo sobre **SQLite**. Provee verificación estricta de consultas SQL en tiempo de compilación, cero boilerplate y mapeo directo con Kotlin Coroutines y `Flow` hacia la UI.
 - **Módulo Bluetooth:** Uso de `BluetoothAdapter` y `BluetoothSocket` junto con **Coroutines** y **Flows** para lograr una lectura asíncrona altamente estable.
 - **Procesamiento OBD2:** Background Services (Servicios en segundo plano) muy estables que mantienen la conexión con el vehículo aunque la app se minimice.
 
@@ -50,8 +52,8 @@ La aplicación unificará a los dos segmentos objetivo utilizando Control de Acc
 ### Estrategia de Sincronización Móvil (Offline-First)
 
 Tanto la implementación en Flutter como en Kotlin compartirán la misma base arquitectónica para operar en zonas sin internet (fosos de taller y calles sin cobertura, afectando al 49.1% de usuarios móviles sin plan de datos activo):
-1. **Cache Local (Lectura):** Room (Android) o SQLite/Isar (Flutter) almacenarán los catálogos estáticos y el historial de órdenes para que la interfaz cargue instantáneamente y sin depender de llamadas directas a red.
-2. **Sync Queue (Escritura):** Toda interacción de modificación de estado (marcar tarea completada, pedir cita) se registrará como un evento local.
+1. **Caché Local Relacional (Lectura con SQLite):** Se estandariza el motor relacional embebido **SQLite** para ambas plataformas: implementado mediante **Room Database** en Android (Kotlin) para garantizar consultas verificadas en compilación y reactividad con `Flow`, y mediante **SQLite (`sqflite`)** en Flutter. Almacenarán catálogos estáticos y el historial de órdenes para que la interfaz cargue instantáneamente y sin depender de llamadas directas a red.
+2. **Sync Queue (Escritura):** Toda interacción de modificación de estado (marcar tarea completada, pedir cita) se registrará como un evento local en la tabla `pending_sync_events`.
 3. **Background Sync:** Al detectar que el dispositivo se conecta a una red Wi-Fi o 4G/5G, un *Worker* procesa en bloque (batch) todos los eventos encolados hacia el servidor en la nube (Spring Boot) asegurando la *Consistencia Eventual*.
 4. **Deferred Uploads:** Toda evidencia visual recolectada offline se guardará primero de forma local y se subirá asíncronamente a Firebase Storage antes de sincronizar la URL a la base de datos relacional.
 
@@ -64,13 +66,17 @@ En esta fase entraría en juego la aplicación orientada al **Segmento 3: Propie
 
 En el curso de IoT, demostrarás la ingesta de los dispositivos **OBD2 con SIM (Tipo A)** que interactuarán con este segmento.
 
-### Emulador de Hardware Comercial (Prueba de Concepto)
+> [!NOTE]
+> **Alineación con el Diagrama de Despliegue (Reporte - Sección 2.5.3.4):**  
+> En el **Deployment Diagram** de la arquitectura de software se define y modela un entorno de producción comercial real (vehículo físico con puerto SAE J1962, ECU automotriz, escáneres OBD-II comerciales Bluetooth BLE y dongles telemáticos comerciales 4G LTE Cat-M1 / NB-IoT). Sin embargo, para fines de la **prueba de concepto (PoC), validación en laboratorio y entrega académica**, el despliegue físico vehicular se implementa y opera mediante el **Emulador de Hardware Comercial** y el **Simulador de Señales ECU/PIDs** detallados a continuación.
+
+### Emulador de Hardware Comercial (Prueba de Concepto Académica)
 
 Para no comprar un equipo costoso, ensamblarás un hardware que simulará ser un equipo de rastreo comercial.
 
-1. **Componentes:** Microcontrolador (ej. ESP32), un módulo GSM (ej. SIM800L) y un transceptor CAN Bus para leer un motor (o potenciómetros para simularlo en clase).
-2. **Firmware (C/C++):** Escribirás un programa que recopile datos, los pase a JSON y utilice el módem SIM para hacer un HTTP POST directamente a la IP del backend en Java (`/api/v1/telemetry`).
-3. **Logro:** Demostrarás que el backend de Atelier es verdaderamente "Hardware Agnostic" y está listo para producción B2B.
+1. **Componentes:** Microcontrolador (ej. ESP32), un módulo GSM/GPRS (ej. SIM800L) y un transceptor CAN Bus para leer un motor (o potenciómetros para simular variables como RPM y temperatura en clase).
+2. **Firmware (C/C++ sobre FreeRTOS):** Escribirás un programa que recopile datos o señales simuladas, los serialice a formato JSON y utilice el módem SIM para emitir peticiones HTTP POST directamente al endpoint de ingesta de la API en Java (`/api/v1/telemetry`).
+3. **Logro:** Demostrarás que el backend de Atelier es verdaderamente "Hardware Agnostic", procesando de manera idéntica los paquetes telemétricos tanto de un prototipo embebido educativo como de un dispositivo telemático comercial B2B.
 
 ---
 
