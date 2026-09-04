@@ -47,8 +47,12 @@ db-diagrams:
 c4:
 	@echo Exportando modelo C4 DSL a PlantUML...
 	$(DOCKER) -w "/app/report/assets/diagram-sources/c4-diagrams" structurizr/structurizr export -workspace "workspace.dsl" -format plantuml -output "/app/$(C4_EXPORT_DIR)"
+	@echo Eliminando archivos de leyenda \(-key.puml\)...
+	rm -f $(C4_EXPORT_DIR)/*-key.puml
 	@echo Generando imágenes PNG de los diagramas C4...
-	$(DOCKER) ghcr.io/plantuml/plantuml -tpng -o "/app/report/assets/c4-diagrams" "/app/$(C4_EXPORT_DIR)/*.puml"
+	$(DOCKER) ghcr.io/plantuml/plantuml -DPLANTUML_LIMIT_SIZE=16384 -tpng -o "/app/report/assets/c4-diagrams" "/app/$(C4_EXPORT_DIR)"
+	@echo Limpiando imágenes de leyenda \(-key.png\) residuales si existen...
+	rm -f report/assets/c4-diagrams/*-key.png
 	@echo Done C4 diagrams.
 
 pdf:
